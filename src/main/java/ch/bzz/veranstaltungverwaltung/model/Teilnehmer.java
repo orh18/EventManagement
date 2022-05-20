@@ -1,8 +1,5 @@
 package ch.bzz.veranstaltungverwaltung.model;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-
 /**
  * Teilnehmer die an einer Disziplin teilnimmt
  */
