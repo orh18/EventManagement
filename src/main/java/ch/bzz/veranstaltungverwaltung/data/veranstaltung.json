@@ -1,0 +1,34 @@
+[
+  {
+    "veranstaltungUUID": "af861tbb-e295-4597-abcd-a69496797dc0",
+    "name": "Winthertur Marathon",
+    "beschreibung": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,\nmolestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum\nnumquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium",
+    "adresse": "Oberseenerstrasse 184 8405 Winterthur",
+    "datum": "2022-05-22",
+    "preis": "75"
+  },
+  {
+    "veranstaltungUUID": "af861tbb-b985-4597-abcd-a69496797dc0",
+    "name": "Hallensport Turnier",
+    "beschreibung": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,\nmolestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum\nnumquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium",
+    "adresse": "Oberseenerstrasse 184 8405 Winterthur",
+    "datum": "2022-05-25",
+    "preis": "75"
+  },
+  {
+    "veranstaltungUUID": "af861tbb-e295-4597-defg-a69496797dc0",
+    "name": "Winthertur Marathon",
+    "beschreibung": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,\nmolestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum\nnumquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium",
+    "adresse": "Oberseenerstrasse 184 8405 Winterthur",
+    "datum": "2022-05-28",
+    "preis": "100"
+  },
+  {
+    "veranstaltungUUID": "af861tbb-e295-4597-abcd-a69471297dc0",
+    "name": "Winthertur Marathon",
+    "beschreibung": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,\nmolestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum\nnumquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium",
+    "adresse": "Oberseenerstrasse 184 8405 Winterthur",
+    "datum": "2022-05-30",
+    "preis": "50"
+  }
+]
