@@ -1,30 +1,17 @@
 package ch.bzz.veranstaltungverwaltung.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 
 public class Disziplin {
+    @JsonIgnore
+    private Veranstaltung veranstaltung;
+    
     private String disziplinUUID;
     private String disziplin;
     private String beschreibung;
-    private Veranstaltung veranstaltung;
-    private ArrayList<Teilnehmer> teilnehmer;
-
-    /**
-     * erzeugt eine Instanz von Disziplin
-     *
-     * @param disziplinUUID
-     * @param disziplin
-     * @param beschreibung
-     * @param veranstaltung
-     * @param teilnehmer
-     */
-    public Disziplin(String disziplinUUID, String disziplin, String beschreibung, Veranstaltung veranstaltung, ArrayList<Teilnehmer> teilnehmer) {
-        this.disziplinUUID = disziplinUUID;
-        this.disziplin = disziplin;
-        this.beschreibung = beschreibung;
-        this.veranstaltung = veranstaltung;
-        this.teilnehmer = teilnehmer;
-    }
+    private ArrayList<String> teilnehmer;
 
     /**
      * zurückgibt disziplinUUID
@@ -103,7 +90,7 @@ public class Disziplin {
      *
      * @return Wert von teilnehmer
      */
-    public ArrayList<Teilnehmer> getTeilnehmer() {
+    public ArrayList<String> getTeilnehmer() {
         return teilnehmer;
     }
 
@@ -112,7 +99,7 @@ public class Disziplin {
      *
      * @param teilnehmer der Wert zu setzen
      */
-    public void setTeilnehmer(ArrayList<Teilnehmer> teilnehmer) {
+    public void setTeilnehmer(ArrayList<String> teilnehmer) {
         this.teilnehmer = teilnehmer;
     }
 }

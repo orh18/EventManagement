@@ -1,34 +1,24 @@
 package ch.bzz.veranstaltungverwaltung.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class Veranstaltung {
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+    private LocalDate datum;
+
     private String veranstaltungUUID;
     private String name;
     private String beschreibung;
     private String adresse;
-    private LocalDate datum;
     private BigDecimal preis;
-
-    /**
-     * erzeugt eine Instanz von Veranstaltung
-     *
-     * @param veranstaltungUUID
-     * @param name
-     * @param beschreibung
-     * @param adresse
-     * @param datum
-     * @param preis
-     */
-    public Veranstaltung(String veranstaltungUUID, String name, String beschreibung, String adresse, LocalDate datum, BigDecimal preis) {
-        this.veranstaltungUUID = veranstaltungUUID;
-        this.name = name;
-        this.beschreibung = beschreibung;
-        this.adresse = adresse;
-        this.datum = datum;
-        this.preis = preis;
-    }
 
     /**
      * zurückgibt veranstaltungUUID
