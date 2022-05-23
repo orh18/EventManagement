@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * reads and writes the data in the JSON-files
+ * liest und schreibt die Daten in die JSON-Files
  */
 public class DataHandler {
     private static DataHandler instance = null;
@@ -22,7 +22,7 @@ public class DataHandler {
     private List<Veranstaltung> veranstaltungList;
 
     /**
-     * private constructor defeats instantiation
+     * private Konstruktor, dass Instanzierung schlägt
      */
     private DataHandler() {
         setTeilnehmerList(new ArrayList<>());
@@ -34,7 +34,7 @@ public class DataHandler {
     }
 
     /**
-     * gets the only instance of this class
+     * zurückgibt die einzige Instanz dieser Klasse
      * @return
      */
     public static DataHandler getInstance() {
@@ -52,9 +52,9 @@ public class DataHandler {
     }
 
     /**
-     * liest ein Buch mit seiner uuid
+     * liest ein Teilnehmer mit seiner Id
      * @param teilnehmerUUID
-     * @return das Buch (null=not found)
+     * @return das Teilnehmer (null=not found)
      */
     public Teilnehmer readTeilnehmerByUUID(String teilnehmerUUID) {
         Teilnehmer teilnehmer = null;
@@ -98,7 +98,7 @@ public class DataHandler {
     }
 
     /**
-     * liest eine Disziplin mit seiner Id
+     * liest eine Veranstaltung mit seiner Id
      * @param veranstaltungUUID
      * @return die Veranstaltung (null=not found)
      */
@@ -179,7 +179,7 @@ public class DataHandler {
     }
 
     /**
-     * setzt disziplinList
+     * setzt teilnehmerList
      *
      * @param teilnehmerList der Wert zu setzen
      */
