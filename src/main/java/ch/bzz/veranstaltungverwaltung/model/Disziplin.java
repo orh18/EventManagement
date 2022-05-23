@@ -1,17 +1,45 @@
 package ch.bzz.veranstaltungverwaltung.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import ch.bzz.veranstaltungverwaltung.data.DataHandler;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
+import java.util.List;
 
+/**
+ * Disziplin einer Veranstaltung
+ */
 public class Disziplin {
-    @JsonIgnore
-    private Veranstaltung veranstaltung;
-    
+
     private String disziplinUUID;
     private String disziplin;
     private String beschreibung;
-    private ArrayList<String> teilnehmer;
+    private Veranstaltung veranstaltung;
+    private ArrayList<Teilnehmer> teilnehmer;
+
+    /**
+     * setzt veranstaltung mit seiner Id
+     *
+     * @param veranstaltungUUID der Wert zu setzen
+     */
+    @JsonProperty("veranstaltung")
+    public void setVeranstaltungByUUID(String veranstaltungUUID) {
+        setVeranstaltung(DataHandler.getInstance().readVeranstaltungByUUID(veranstaltungUUID));
+    }
+
+    /**
+     * setzt teilnehmerListe
+     *
+     * @param teilnehmer der Wert zu setzen
+     */
+    @JsonProperty("teilnehmer")
+    public void setTeilnehmerByUUID(List<String> teilnehmer) {
+        setTeilnehmer(new ArrayList<>());
+        for (String s : teilnehmer) {
+            this.teilnehmer.add(DataHandler.getInstance().readTeilnehmerByUUID(s));
+        }
+    }
 
     /**
      * zurückgibt disziplinUUID
@@ -90,7 +118,7 @@ public class Disziplin {
      *
      * @return Wert von teilnehmer
      */
-    public ArrayList<String> getTeilnehmer() {
+    public ArrayList<Teilnehmer> getTeilnehmer() {
         return teilnehmer;
     }
 
@@ -99,7 +127,7 @@ public class Disziplin {
      *
      * @param teilnehmer der Wert zu setzen
      */
-    public void setTeilnehmer(ArrayList<String> teilnehmer) {
+    public void setTeilnehmer(ArrayList<Teilnehmer> teilnehmer) {
         this.teilnehmer = teilnehmer;
     }
 }
