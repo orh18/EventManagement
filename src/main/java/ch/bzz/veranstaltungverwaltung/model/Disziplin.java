@@ -9,6 +9,9 @@ import java.util.List;
 
 /**
  * Disziplin einer Veranstaltung
+ * @author  : Obin Rokibul Hoque
+ * @date    : 2022-05-17
+ * @version : 1.0
  */
 public class Disziplin {
 

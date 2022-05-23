@@ -2,8 +2,10 @@ package ch.bzz.veranstaltungverwaltung.model;
 
 /**
  * Teilnehmer die an einer Disziplin teilnimmt
+ * @author  : Obin Rokibul Hoque
+ * @date    : 2022-05-17
+ * @version : 1.0
  */
-
 public class Teilnehmer {
     private String teilnehmerUUID;
     private String name;

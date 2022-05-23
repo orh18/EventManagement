@@ -8,10 +8,12 @@ import javax.ws.rs.core.Response;
 
 /**
  * Test Service
+ * @author  : Obin Rokibul Hoque
+ * @date    : 2022-05-22
+ * @version : 1.0
  */
 @Path("test")
 public class TestService {
-
     /**
      * bestätigt, dass die Applikation läuft
      * @return  message

@@ -13,6 +13,9 @@ import java.util.List;
 
 /**
  * Disziplin Service
+ * @author  : Obin Rokibul Hoque
+ * @date    : 2022-05-22
+ * @version : 1.0
  */
 @Path("disziplin")
 public class DisziplinService {

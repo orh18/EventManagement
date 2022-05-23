@@ -11,10 +11,11 @@ import java.util.Set;
 
 /**
  * konfiguriert die Web-Services und Properties
+ * @author  : Obin Rokibul Hoque
+ * @date    : 2022-05-17
+ * @version : 1.0
  */
-
 @ApplicationPath("/resource")
-
 public class Config extends Application {
     private static final String PROPERTIES_PATH = "/home/bzz/data/veranstaltungList.properties";
     private static Properties properties = null;
