@@ -1,8 +1,5 @@
 package ch.bzz.veranstaltungverwaltung.model;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-
 /**
  * Teilnehmer die an einer Disziplin teilnimmt
  */
@@ -13,20 +10,6 @@ public class Teilnehmer {
     private String vorname;
     private String handynummer;
 
-    /**
-     * erzeugt eine Instanz von Teilnehmer
-     *
-     * @param teilnehmerUUID
-     * @param name
-     * @param vorname
-     * @param handynummer
-     */
-    public Teilnehmer(String teilnehmerUUID, String name, String vorname, String handynummer) {
-        this.teilnehmerUUID = teilnehmerUUID;
-        this.name = name;
-        this.vorname = vorname;
-        this.handynummer = handynummer;
-    }
 
     /**
      * zurückgibt teilnehmerUUID

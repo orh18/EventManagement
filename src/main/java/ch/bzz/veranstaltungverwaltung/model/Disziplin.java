@@ -1,10 +1,17 @@
 package ch.bzz.veranstaltungverwaltung.model;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.ArrayList;
 
+import ch.bzz.veranstaltungverwaltung.data.DataHandler;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Disziplin einer Veranstaltung
+ */
 public class Disziplin {
+
     private String disziplinUUID;
     private String disziplin;
     private String beschreibung;
@@ -12,20 +19,26 @@ public class Disziplin {
     private ArrayList<Teilnehmer> teilnehmer;
 
     /**
-     * erzeugt eine Instanz von Disziplin
+     * setzt veranstaltung mit seiner Id
      *
-     * @param disziplinUUID
-     * @param disziplin
-     * @param beschreibung
-     * @param veranstaltung
-     * @param teilnehmer
+     * @param veranstaltungUUID der Wert zu setzen
      */
-    public Disziplin(String disziplinUUID, String disziplin, String beschreibung, Veranstaltung veranstaltung, ArrayList<Teilnehmer> teilnehmer) {
-        this.disziplinUUID = disziplinUUID;
-        this.disziplin = disziplin;
-        this.beschreibung = beschreibung;
-        this.veranstaltung = veranstaltung;
-        this.teilnehmer = teilnehmer;
+    @JsonProperty("veranstaltung")
+    public void setVeranstaltungByUUID(String veranstaltungUUID) {
+        setVeranstaltung(DataHandler.getInstance().readVeranstaltungByUUID(veranstaltungUUID));
+    }
+
+    /**
+     * setzt teilnehmerListe
+     *
+     * @param teilnehmer der Wert zu setzen
+     */
+    @JsonProperty("teilnehmer")
+    public void setTeilnehmerByUUID(List<String> teilnehmer) {
+        setTeilnehmer(new ArrayList<>());
+        for (String s : teilnehmer) {
+            this.teilnehmer.add(DataHandler.getInstance().readTeilnehmerByUUID(s));
+        }
     }
 
     /**
