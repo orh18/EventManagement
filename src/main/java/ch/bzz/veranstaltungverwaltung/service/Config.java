@@ -10,23 +10,24 @@ import java.util.Properties;
 import java.util.Set;
 
 /**
- * configure the web services and properties
+ * konfiguriert die Web-Services und Properties
  */
 
 @ApplicationPath("/resource")
 
 public class Config extends Application {
-    private static final String PROPERTIES_PATH = "/home/bzz/IdeaProjects/Veranstaltungverwaltung/src/main/webapp/veranstaltungList.properties";
+    private static final String PROPERTIES_PATH = "/home/bzz/IdeaProjects/Veranstaltungverwaltung/testing/veranstaltungList.properties";
     private static Properties properties = null;
 
     /**
-     * define all provider classes
+     * definiert alle Provider Klassen
      *
-     * @return set of classes
+     * @return Set von Klassen
      */
     @Override
     public Set<Class<?>> getClasses() {
         HashSet providers = new HashSet<Class<?>>();
+        providers.add(TestService.class);
         providers.add(TeilnehmerService.class);
         providers.add(DisziplinService.class);
         providers.add(VeranstaltungService.class);
@@ -34,10 +35,10 @@ public class Config extends Application {
     }
 
     /**
-     * Gets the value of a property
+     * Zurückgibt der Wert von einer Property
      *
-     * @param property the key of the property to be read
-     * @return the value of the property
+     * @param property der Schlüssel von der Property, die gelesen werden soll
+     * @return der Wert von der Property
      */
     public static String getProperty(String property) {
         if (Config.properties == null) {
@@ -50,7 +51,7 @@ public class Config extends Application {
     }
 
     /**
-     * reads the properties file
+     * liest den Property File
      */
     private static void readProperties() {
 
@@ -66,9 +67,9 @@ public class Config extends Application {
     }
 
     /**
-     * Sets the properties
+     * Setzt die Properties
      *
-     * @param properties the value to set
+     * @param properties der Wert zu setzen
      */
     private static void setProperties(Properties properties) {
         Config.properties = properties;

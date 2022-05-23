@@ -1,9 +1,7 @@
 package ch.bzz.veranstaltungverwaltung.service;
 
 import ch.bzz.veranstaltungverwaltung.data.DataHandler;
-import ch.bzz.veranstaltungverwaltung.model.Disziplin;
-import ch.bzz.veranstaltungverwaltung.model.Teilnehmer;
-import ch.bzz.veranstaltungverwaltung.model.Veranstaltung;
+import ch.bzz.veranstaltungverwaltung.model.Disziplin;;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -44,9 +42,15 @@ public class DisziplinService {
             @QueryParam("uuid") String disziplinUUID
     ) {
         Disziplin disziplin = DataHandler.getInstance().readDisziplinByUUID(disziplinUUID);
-        return Response
-                .status(200)
-                .entity(disziplin)
-                .build();
+        if(disziplin != null) {
+            return Response
+                    .status(200)
+                    .entity(disziplin)
+                    .build();
+        } else {
+            return Response
+                    .status(404)
+                    .build();
+        }
     }
 }

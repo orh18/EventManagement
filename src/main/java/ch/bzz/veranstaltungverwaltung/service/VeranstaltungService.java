@@ -32,8 +32,8 @@ public class VeranstaltungService {
     }
 
     /**
-     * liest ein Teilnehmer mit der gegebene id
-     * @return Teilnehmer als JSON
+     * liest eine Veranstaltung mit der gegebene id
+     * @return Veranstaltung als JSON
      */
     @GET
     @Path("read")
@@ -42,9 +42,15 @@ public class VeranstaltungService {
             @QueryParam("uuid") String veranstaltungUUID
     ) {
         Veranstaltung veranstaltung = DataHandler.getInstance().readVeranstaltungByUUID(veranstaltungUUID);
-        return Response
-                .status(200)
-                .entity(veranstaltung)
-                .build();
+        if(veranstaltung != null) {
+            return Response
+                    .status(200)
+                    .entity(veranstaltung)
+                    .build();
+        } else {
+            return Response
+                    .status(404)
+                    .build();
+        }
     }
 }

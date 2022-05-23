@@ -43,9 +43,15 @@ public class TeilnehmerService {
             @QueryParam("uuid") String teilnehmerUUID
     ) {
         Teilnehmer teilnehmer = DataHandler.getInstance().readTeilnehmerByUUID(teilnehmerUUID);
-        return Response
-                .status(200)
-                .entity(teilnehmer)
-                .build();
+        if(teilnehmer != null) {
+            return Response
+                    .status(200)
+                    .entity(teilnehmer)
+                    .build();
+        } else {
+            return Response
+                    .status(404)
+                    .build();
+        }
     }
 }
