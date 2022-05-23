@@ -14,6 +14,9 @@ import java.util.List;
 
 /**
  * liest und schreibt die Daten in die JSON-Files
+ * @author  : Obin Rokibul Hoque
+ * @date    : 2022-05-17
+ * @version : 1.0
  */
 public class DataHandler {
     private static DataHandler instance = null;
