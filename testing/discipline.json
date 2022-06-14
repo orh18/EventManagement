@@ -1,0 +1,30 @@
+[
+  {
+    "disciplineUUID": "3247c340-c712-402e-b400-0a23a9368c97",
+    "discipline": "Velorennen",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,\nmolestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum\nnumquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium",
+    "event": "af861tbb-e295-4597-abcd-a69471297dc0",
+    "participant": ["3247c340-c712-402e-b400-0a23a9368c97", "db117daa-e295-4597-abcd-a69496797dc0"]
+  },
+  {
+    "disciplineUUID": "7865c340-c712-402e-b400-0a23a9368c97",
+    "discipline": "Marathon",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,\nmolestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum\nnumquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium",
+    "event": "af861tbb-e295-4597-abcd-a69471297dc0",
+    "participant": ["3247c340-c712-402e-b400-0a23a9368c97", "db117daa-e295-4597-abcd-a69496797dc0"]
+  },
+  {
+    "disciplineUUID": "3247c340-x895-402e-b400-0a23a9368c97",
+    "discipline": "Fussball",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,\nmolestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum\nnumquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium",
+    "event": "af861tbb-b985-4597-abcd-a69496797dc0",
+    "participant": ["3247c340-c712-402e-b400-0a23a9368c97", "db117daa-e295-4597-abcd-a69496797dc0"]
+  },
+  {
+    "disciplineUUID": "3247c340-c712-420e-b400-0a23a9368c97",
+    "discipline": "Volleyball",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,\nmolestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum\nnumquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium",
+    "event": "af861tbb-b985-4597-abcd-a69496797dc0",
+    "participant": ["3247c340-c712-402e-b400-0a23a9368c97", "db117daa-e295-4597-abcd-a69496797dc0"]
+  }
+]
