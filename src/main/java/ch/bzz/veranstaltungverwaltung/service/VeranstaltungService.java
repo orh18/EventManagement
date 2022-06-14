@@ -1,7 +1,7 @@
 package ch.bzz.veranstaltungverwaltung.service;
 
 import ch.bzz.veranstaltungverwaltung.data.DataHandler;
-import ch.bzz.veranstaltungverwaltung.model.Veranstaltung;
+import ch.bzz.veranstaltungverwaltung.model.Event;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -12,7 +12,7 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 /**
- * Veranstaltung Service
+ * services for reading, adding, changing and deleting events
  * @author  : Obin Rokibul Hoque
  * @date    : 2022-05-22
  * @version : 1.0
@@ -20,35 +20,36 @@ import java.util.List;
 @Path("veranstaltung")
 public class VeranstaltungService {
     /**
-     * liest eine Liste von Veranstaltungen
-     * @return Veranstaltungen als JSON
+     * reads a list of all events
+     * @return  events as JSON
      */
     @GET
     @Path("list")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response listVeranstaltung() {
-        List<Veranstaltung> veranstaltungList = DataHandler.getInstance().readAllVeranstaltungen();
+    public Response listEvents() {
+        List<Event> eventList = DataHandler.readAllEvents();
         return Response
                 .status(200)
-                .entity(veranstaltungList)
+                .entity(eventList)
                 .build();
     }
 
     /**
-     * liest eine Veranstaltung mit der gegebene id
-     * @return Veranstaltung als JSON
+     * reads an event identified by the uuid
+     * @param eventUUID
+     * @return event
      */
     @GET
     @Path("read")
     @Produces(MediaType.APPLICATION_JSON)
     public Response readVeranstaltung(
-            @QueryParam("uuid") String veranstaltungUUID
+            @QueryParam("uuid") String eventUUID
     ) {
-        Veranstaltung veranstaltung = DataHandler.getInstance().readVeranstaltungByUUID(veranstaltungUUID);
-        if(veranstaltung != null) {
+        Event event = DataHandler.readEventByUUID(eventUUID);
+        if(event != null) {
             return Response
                     .status(200)
-                    .entity(veranstaltung)
+                    .entity(event)
                     .build();
         } else {
             return Response
