@@ -1,133 +1,219 @@
 package ch.bzz.veranstaltungverwaltung.data;
 
-import ch.bzz.veranstaltungverwaltung.model.Disziplin;
-import ch.bzz.veranstaltungverwaltung.model.Teilnehmer;
-import ch.bzz.veranstaltungverwaltung.model.Veranstaltung;
+import ch.bzz.veranstaltungverwaltung.model.Discipline;
+import ch.bzz.veranstaltungverwaltung.model.Event;
+import ch.bzz.veranstaltungverwaltung.model.Participant;
 import ch.bzz.veranstaltungverwaltung.service.Config;
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * liest und schreibt die Daten in die JSON-Files
+ * reads and writes the data in the JSON-files
  * @author  : Obin Rokibul Hoque
  * @date    : 2022-05-17
  * @version : 1.0
  */
 public class DataHandler {
-    private static DataHandler instance = null;
-    private List<Teilnehmer> teilnehmerList;
-    private List<Disziplin> disziplinList;
-    private List<Veranstaltung> veranstaltungList;
+    private static List<Participant> participantList;
+    private static List<Discipline> disciplineList;
+    private static List<Event> eventList;
 
     /**
-     * private Konstruktor, dass Instanzierung schlägt
+     * private constructor defeats instantiation
      */
     private DataHandler() {
-        setTeilnehmerList(new ArrayList<>());
-        readTeilnehmerJSON();
-        setDisziplinList(new ArrayList<>());
-        readDisziplinJSON();
-        setVeranstaltungList(new ArrayList<>());
-        readVeranstaltungJSON();
     }
 
     /**
-     * zurückgibt die einzige Instanz dieser Klasse
-     * @return
+     * reads all participant
+     * @return list of paticipant
      */
-    public static DataHandler getInstance() {
-        if (instance == null)
-            instance = new DataHandler();
-        return instance;
+    public static List<Participant> readAllParticipants() {
+        return getParticipantList();
     }
 
     /**
-     * liest alle Teilnehmer
-     * @return Liste von Teilnehmer
+     * reads a participant by its uuid
+     * @param participantUUID
+     * @return the Participant (null=not found)
      */
-    public List<Teilnehmer> readAllTeilnehmer() {
-        return getTeilnehmerList();
-    }
-
-    /**
-     * liest ein Teilnehmer mit seiner Id
-     * @param teilnehmerUUID
-     * @return das Teilnehmer (null=not found)
-     */
-    public Teilnehmer readTeilnehmerByUUID(String teilnehmerUUID) {
-        Teilnehmer teilnehmer = null;
-        for (Teilnehmer entry : getTeilnehmerList()) {
-            if (entry.getTeilnehmerUUID().equals(teilnehmerUUID)) {
-                teilnehmer = entry;
+    public static Participant readParticipantByUUID(String participantUUID) {
+        Participant participant = null;
+        for (Participant entry : getParticipantList()) {
+            if (entry.getParticipantUUID().equals(participantUUID)) {
+                participant = entry;
             }
         }
-        return teilnehmer;
+        return participant;
     }
 
     /**
-     * liest alle Disziplinen
-     * @return List von Disziplinen
+     * inserts a new participant into the participantList
+     *
+     * @param participant the participant to be saved
      */
-    public List<Disziplin> readAllDisziplinen() {
-        return getDisziplinList();
+    public static void insertParticipant(Participant participant) {
+        getParticipantList().add(participant);
+        writeParticipantJSON();
     }
 
     /**
-     * liest eine Disziplin mit seiner Id
-     * @param disziplinUUID
-     * @return die Disziplin (null=not found)
+     * updates the participantList
      */
-    public Disziplin readDisziplinByUUID(String disziplinUUID) {
-        Disziplin disziplin = null;
-        for (Disziplin entry : getDisziplinList()) {
-            if (entry.getDisziplinUUID().equals(disziplinUUID)) {
-                disziplin = entry;
+    public static void updateParticipant() {
+        writeParticipantJSON();
+    }
+
+    /**
+     * deletes a participant identified by the participantUUID
+     * @param participantUUID  the key
+     * @return  success=true/false
+     */
+    public static boolean deleteParticipant(String participantUUID) {
+        Participant participant = readParticipantByUUID(participantUUID);
+        if (participant != null) {
+            getParticipantList().remove(participant);
+            writeParticipantJSON();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * reads all discipline
+     * @return list of discipline
+     */
+    public static List<Discipline> readAllDisciplines() {
+        return getDisciplineList();
+    }
+
+    /**
+     * reads a discipline by its uuid
+     * @param disciplineUUID
+     * @return the Discipline (null=not found)
+     */
+    public static Discipline readDisciplineByUUID(String disciplineUUID) {
+        Discipline discipline = null;
+        for (Discipline entry : getDisciplineList()) {
+            if (entry.getDisciplineUUID().equals(disciplineUUID)) {
+                discipline = entry;
             }
         }
-        return disziplin;
+        return discipline;
     }
 
     /**
-     * liest alle Veranstaltungen
-     * @return List von Veranstaltungen
+     * inserts a new discipline into the disciplineList
+     *
+     * @param discipline the publisher to be saved
      */
-    public List<Veranstaltung> readAllVeranstaltungen() {
-        return getVeranstaltungList();
+    public static void insertDiscipline(Discipline discipline) {
+        getDisciplineList().add(discipline);
+        writeDisciplineJSON();
     }
 
     /**
-     * liest eine Veranstaltung mit seiner Id
-     * @param veranstaltungUUID
-     * @return die Veranstaltung (null=not found)
+     * updates the disciplineList
      */
-    public Veranstaltung readVeranstaltungByUUID(String veranstaltungUUID) {
-        Veranstaltung veranstaltung = null;
-        for (Veranstaltung entry : getVeranstaltungList()) {
-            if (entry.getVeranstaltungUUID().equals(veranstaltungUUID)) {
-                veranstaltung = entry;
+    public static void updateDiscipline() {
+        writeDisciplineJSON();
+    }
+
+    /**
+     * deletes a discipline identified by the disciplineUUID
+     * @param disciplineUUID  the key
+     * @return  success=true/false
+     */
+    public static boolean deleteDiscipline(String disciplineUUID) {
+        Discipline discipline = readDisciplineByUUID(disciplineUUID);
+        if (discipline != null) {
+            getParticipantList().remove(discipline);
+            writeDisciplineJSON();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    /**
+     * reads all events
+     * @return list of events
+     */
+    public static List<Event> readAllEvents() {
+        return getEventList();
+    }
+
+    /**
+     * reads an event by its uuid
+     * @param eventUUID
+     * @return the Event (null=not found)
+     */
+    public static Event readEventByUUID(String eventUUID) {
+        Event event = null;
+        for (Event entry : getEventList()) {
+            if (entry.getEventUUID().equals(eventUUID)) {
+                event = entry;
             }
         }
-        return veranstaltung;
+        return event;
     }
 
     /**
-     * liest die Teilnehmer vom JSON-File
+     * inserts a new event into the eventList
+     *
+     * @param event the event to be saved
      */
-    private void readTeilnehmerJSON() {
+    public static void insertEvent(Event event) {
+        getEventList().add(event);
+        writeEventJSON();
+    }
+
+    /**
+     * updates the eventList
+     */
+    public static void updateEvent() {
+        writeEventJSON();
+    }
+
+    /**
+     * deletes an event identified by the eventUUID
+     * @param eventUUID  the key
+     * @return  success=true/false
+     */
+    public static boolean deleteVeranstaltung(String eventUUID) {
+        Event event = readEventByUUID(eventUUID);
+        if (event != null) {
+            getParticipantList().remove(event);
+            writeEventJSON();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * reads the participants from the JSON-file
+     */
+    private static void readParticipantJSON() {
         try {
-            String path = Config.getProperty("teilnehmerJSON");
+            String path = Config.getProperty("participantJSON");
             byte[] jsonData = Files.readAllBytes(
                     Paths.get(path)
             );
             ObjectMapper objectMapper = new ObjectMapper();
-            Teilnehmer[] teilnehmer = objectMapper.readValue(jsonData, Teilnehmer[].class);
-            for (Teilnehmer t : teilnehmer) {
-                getTeilnehmerList().add(t);
+            Participant[] participant = objectMapper.readValue(jsonData, Participant[].class);
+            for (Participant t : participant) {
+                getParticipantList().add(t);
             }
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -135,18 +221,37 @@ public class DataHandler {
     }
 
     /**
-     * liest die Disziplinen vom JSON-File
+     * writes the participantList to the JSON-file
      */
-    private void readDisziplinJSON() {
+    private static void writeParticipantJSON() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectWriter objectWriter = objectMapper.writer(new DefaultPrettyPrinter());
+        FileOutputStream fileOutputStream = null;
+        Writer fileWriter;
+
+        String bookPath = Config.getProperty("participantJSON");
         try {
-            String path = Config.getProperty("disziplinJSON");
+            fileOutputStream = new FileOutputStream(bookPath);
+            fileWriter = new BufferedWriter(new OutputStreamWriter(fileOutputStream, StandardCharsets.UTF_8));
+            objectWriter.writeValue(fileWriter, getParticipantList());
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * reads the disciplines from the JSON-File
+     */
+    private static void readDisciplineJSON() {
+        try {
+            String path = Config.getProperty("disciplineJSON");
             byte[] jsonData = Files.readAllBytes(
                     Paths.get(path)
             );
             ObjectMapper objectMapper = new ObjectMapper();
-            Disziplin[] disziplinen = objectMapper.readValue(jsonData, Disziplin[].class);
-            for (Disziplin d : disziplinen) {
-                getDisziplinList().add(d);
+            Discipline[] disziplinen = objectMapper.readValue(jsonData, Discipline[].class);
+            for (Discipline d : disziplinen) {
+                getDisciplineList().add(d);
             }
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -154,18 +259,37 @@ public class DataHandler {
     }
 
     /**
-     * liest die Veranstaltungen vom JSON-File
+     * writes the disciplineList to the JSON-file
      */
-    private void readVeranstaltungJSON() {
+    private static void writeDisciplineJSON() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectWriter objectWriter = objectMapper.writer(new DefaultPrettyPrinter());
+        FileOutputStream fileOutputStream = null;
+        Writer fileWriter;
+
+        String bookPath = Config.getProperty("disciplineJSON");
         try {
-            String path = Config.getProperty("veranstaltungJSON");
+            fileOutputStream = new FileOutputStream(bookPath);
+            fileWriter = new BufferedWriter(new OutputStreamWriter(fileOutputStream, StandardCharsets.UTF_8));
+            objectWriter.writeValue(fileWriter, getDisciplineList());
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * reads the events from the JSON-File
+     */
+    private static void readEventJSON() {
+        try {
+            String path = Config.getProperty("eventJSON");
             byte[] jsonData = Files.readAllBytes(
                     Paths.get(path)
             );
             ObjectMapper objectMapper = new ObjectMapper();
-            Veranstaltung[] veranstaltungen = objectMapper.readValue(jsonData, Veranstaltung[].class);
-            for (Veranstaltung v : veranstaltungen) {
-                getVeranstaltungList().add(v);
+            Event[] veranstaltungen = objectMapper.readValue(jsonData, Event[].class);
+            for (Event v : veranstaltungen) {
+                getEventList().add(v);
             }
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -173,56 +297,87 @@ public class DataHandler {
     }
 
     /**
-     * zurückgibt teilnehmerList
-     *
-     * @return Wert von teilnehmerList
+     * writes the eventList to the JSON-file
      */
-    private List<Teilnehmer> getTeilnehmerList() {
-        return teilnehmerList;
+    private static void writeEventJSON() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectWriter objectWriter = objectMapper.writer(new DefaultPrettyPrinter());
+        FileOutputStream fileOutputStream = null;
+        Writer fileWriter;
+
+        String bookPath = Config.getProperty("eventJSON");
+        try {
+            fileOutputStream = new FileOutputStream(bookPath);
+            fileWriter = new BufferedWriter(new OutputStreamWriter(fileOutputStream, StandardCharsets.UTF_8));
+            objectWriter.writeValue(fileWriter, getEventList());
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     /**
-     * setzt teilnehmerList
+     * gets participantList
      *
-     * @param teilnehmerList der Wert zu setzen
+     * @return value of participantList
      */
-    private void setTeilnehmerList(List<Teilnehmer> teilnehmerList) {
-        this.teilnehmerList = teilnehmerList;
+    private static List<Participant> getParticipantList() {
+        if(participantList == null) {
+            setParticipantList(new ArrayList<>());
+            readParticipantJSON();
+        }
+        return participantList;
     }
 
     /**
-     * zurückgibt disziplinList
+     * sets participantList
      *
-     * @return Wert von disziplinList
+     * @param participantList the value to set
      */
-    public List<Disziplin> getDisziplinList() {
-        return disziplinList;
+    private static void setParticipantList(List<Participant> participantList) {
+        DataHandler.participantList = participantList;
     }
 
     /**
-     * setzt disziplinList
+     * gets disciplineList
      *
-     * @param disziplinList der Wert zu setzen
+     * @return value of the disciplineList
      */
-    public void setDisziplinList(List<Disziplin> disziplinList) {
-        this.disziplinList = disziplinList;
+    public static List<Discipline> getDisciplineList() {
+        if(disciplineList == null) {
+            setDisciplineList(new ArrayList<>());
+            readDisciplineJSON();
+        }
+        return disciplineList;
     }
 
     /**
-     * zurückgibt veranstaltungList
+     * sets disciplineList
      *
-     * @return Wert von veranstaltungList
+     * @param disciplineList the value to set
      */
-    public List<Veranstaltung> getVeranstaltungList() {
-        return veranstaltungList;
+    public static void setDisciplineList(List<Discipline> disciplineList) {
+        DataHandler.disciplineList = disciplineList;
     }
 
     /**
-     * setzt veranstaltungList
+     * gets eventList
      *
-     * @param veranstaltungList der Wert zu setzen
+     * @return value of the eventList
      */
-    public void setVeranstaltungList(List<Veranstaltung> veranstaltungList) {
-        this.veranstaltungList = veranstaltungList;
+    public static List<Event> getEventList() {
+        if(eventList == null) {
+            setEventList(new ArrayList<>());
+            readEventJSON();
+        }
+        return eventList;
+    }
+
+    /**
+     * sets eventList
+     *
+     * @param eventList the value to set
+     */
+    public static void setEventList(List<Event> eventList) {
+        DataHandler.eventList = eventList;
     }
 }
