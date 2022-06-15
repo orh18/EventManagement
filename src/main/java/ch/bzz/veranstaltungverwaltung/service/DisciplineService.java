@@ -18,8 +18,8 @@ import java.util.List;
  * @date    : 2022-05-22
  * @version : 1.0
  */
-@Path("disziplin")
-public class DisziplinService {
+@Path("discipline")
+public class DisciplineService {
     /**
      * reads a list of all disciplines
      * @return disciplines as JSON

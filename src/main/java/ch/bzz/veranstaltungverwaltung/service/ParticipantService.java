@@ -15,8 +15,8 @@ import java.util.UUID;
  * @date    : 2022-05-22
  * @version : 1.0
  */
-@Path("teilnehmer")
-public class TeilnehmerService {
+@Path("participant")
+public class ParticipantService {
 
     /**
      * reads a list of all participants

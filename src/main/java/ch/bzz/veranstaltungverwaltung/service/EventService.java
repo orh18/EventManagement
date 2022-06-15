@@ -17,8 +17,8 @@ import java.util.List;
  * @date    : 2022-05-22
  * @version : 1.0
  */
-@Path("veranstaltung")
-public class VeranstaltungService {
+@Path("event")
+public class EventService {
     /**
      * reads a list of all events
      * @return  events as JSON
