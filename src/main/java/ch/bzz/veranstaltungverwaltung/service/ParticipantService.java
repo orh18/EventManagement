@@ -58,8 +58,8 @@ public class ParticipantService {
     /**
      * inserts a new participant
      * @param name
-     * @param vorname
-     * @param handynummer
+     * @param lastName
+     * @param telNumber
      * @return Response
      */
     @PUT
@@ -67,14 +67,14 @@ public class ParticipantService {
     @Produces(MediaType.TEXT_PLAIN)
     public Response insertParticipant(
             @FormParam("name") String name,
-            @FormParam("vorname") String vorname,
-            @FormParam("handynummer") String handynummer
+            @FormParam("lastName") String lastName,
+            @FormParam("telNumber") String telNumber
     ) {
         Participant participant = new Participant();
         participant.setParticipantUUID(UUID.randomUUID().toString());
         participant.setName(name);
-        participant.setLastname(vorname);
-        participant.setTelNumber(handynummer);
+        participant.setLastName(lastName);
+        participant.setTelNumber(telNumber);
 
         DataHandler.insertParticipant(participant);
 
@@ -88,25 +88,25 @@ public class ParticipantService {
      *
      * updates a participant
      * @param name
-     * @param vorname
-     * @param handynummer
+     * @param lastName
+     * @param telNumber
      * @return Response
      */
     @POST
     @Path("update")
     @Produces(MediaType.TEXT_PLAIN)
     public Response updateParticipant(
-            @FormParam("teilnehmerUUID") String teilnehmerUUID,
+            @FormParam("uuid") String participantUUID,
             @FormParam("name") String name,
-            @FormParam("vorname") String vorname,
-            @FormParam("handynummer") String handynummer
+            @FormParam("lastName") String lastName,
+            @FormParam("telNumber") String telNumber
     ) {
         int httpStatus = 200;
-        Participant participant = DataHandler.readParticipantByUUID(teilnehmerUUID);
+        Participant participant = DataHandler.readParticipantByUUID(participantUUID);
         if(participant != null) {
             participant.setName(name);
-            participant.setLastname(vorname);
-            participant.setTelNumber(handynummer);
+            participant.setLastName(lastName);
+            participant.setTelNumber(telNumber);
 
             DataHandler.updateParticipant();
         } else {
@@ -131,7 +131,7 @@ public class ParticipantService {
             @QueryParam("uuid") String participantUUID
     ) {
         int httpStatus = 200;
-        if (!DataHandler.deleteDiscipline(participantUUID)) {
+        if (!DataHandler.deleteParticipant(participantUUID)) {
             httpStatus = 410;
         }
         return Response
