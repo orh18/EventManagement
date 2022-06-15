@@ -122,7 +122,7 @@ public class ParticipantService {
     /**
      * deletes a participant identified by the uuid
      * @param participantUUID
-     * @return book
+     * @return Response
      */
     @GET
     @Path("delete")
