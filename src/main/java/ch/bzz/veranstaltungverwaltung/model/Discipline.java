@@ -19,7 +19,7 @@ public class Discipline {
     private String discipline;
     private String description;
     private Event event;
-    private ArrayList<Participant> participant;
+    private ArrayList<Participant> participants;
 
     /**
      * sets event by eventUUID
@@ -38,9 +38,9 @@ public class Discipline {
      */
     @JsonProperty("participant")
     public void setParticipantByUUID(List<String> participant) {
-        setParticipant(new ArrayList<>());
+        setParticipants(new ArrayList<>());
         for (String s : participant) {
-            this.participant.add(DataHandler.readParticipantByUUID(s));
+            this.participants.add(DataHandler.readParticipantByUUID(s));
         }
     }
 
@@ -121,16 +121,16 @@ public class Discipline {
      *
      * @return value of participant
      */
-    public ArrayList<Participant> getParticipant() {
-        return participant;
+    public ArrayList<Participant> getParticipants() {
+        return participants;
     }
 
     /**
      * sets participant
      *
-     * @param participant the value to set
+     * @param participants the value to set
      */
-    public void setParticipant(ArrayList<Participant> participant) {
-        this.participant = participant;
+    public void setParticipants(ArrayList<Participant> participants) {
+        this.participants = participants;
     }
 }
