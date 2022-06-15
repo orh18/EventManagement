@@ -11,7 +11,7 @@
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
-          <element id="module-output" name="Veranstaltungverwaltung" />
+          <element id="module-output" name="EventManagement" />
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.9.6" />
@@ -23,7 +23,7 @@
       <element id="directory" name="META-INF">
         <element id="file-copy" path="$PROJECT_DIR$/target/Veranstaltungverwaltung-1.0/META-INF/MANIFEST.MF" />
       </element>
-      <element id="javaee-facet-resources" facet="Veranstaltungverwaltung/web/Web" />
+      <element id="javaee-facet-resources" facet="EventManagement/web/Web" />
     </root>
   </artifact>
 </component>
