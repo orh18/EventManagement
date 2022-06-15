@@ -16,7 +16,7 @@ import java.util.List;
 public class Discipline {
 
     private String disciplineUUID;
-    private String discipline;
+    private String disciplineName;
     private String description;
     private Event event;
     private ArrayList<Participant> participants;
@@ -63,21 +63,21 @@ public class Discipline {
     }
 
     /**
-     * gets discipline
+     * gets disciplineName
      *
-     * @return value of discipline
+     * @return value of disciplineName
      */
-    public String getDiscipline() {
-        return discipline;
+    public String getDisciplineName() {
+        return disciplineName;
     }
 
     /**
-     * sets discipline
+     * sets disciplineName
      *
-     * @param discipline the value to set
+     * @param disciplineName the value to set
      */
-    public void setDiscipline(String discipline) {
-        this.discipline = discipline;
+    public void setDisciplineName(String disciplineName) {
+        this.disciplineName = disciplineName;
     }
 
     /**
