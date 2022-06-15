@@ -9,7 +9,7 @@ package ch.bzz.veranstaltungverwaltung.model;
 public class Participant {
     private String participantUUID;
     private String name;
-    private String lastname;
+    private String lastName;
     private String telNumber;
 
     /**
@@ -49,21 +49,21 @@ public class Participant {
     }
 
     /**
-     * gets Lastname
+     * gets lastName
      *
-     * @return value of Lastname
+     * @return value of lastName
      */
-    public String getLastname() {
-        return lastname;
+    public String getLastName() {
+        return lastName;
     }
 
     /**
-     * sets Lastname
+     * sets lastName
      *
-     * @param lastname the value to set
+     * @param lastName the value to set
      */
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     /**
