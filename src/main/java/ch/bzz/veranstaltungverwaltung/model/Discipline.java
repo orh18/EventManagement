@@ -4,6 +4,10 @@ package ch.bzz.veranstaltungverwaltung.model;
 import ch.bzz.veranstaltungverwaltung.data.DataHandler;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import javax.ws.rs.FormParam;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,10 +18,20 @@ import java.util.List;
  * @version : 1.0
  */
 public class Discipline {
-
+    @FormParam("disciplineUUID")
+    @Pattern(regexp = "[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}")
     private String disciplineUUID;
+
+    @FormParam("disciplineName")
+    @NotEmpty
+    @Size(min = 3, max = 30)
     private String disciplineName;
+
+    @FormParam("description")
+    @NotEmpty
+    @Size(min = 10, max = 100)
     private String description;
+
     private Event event;
     private ArrayList<Participant> participants;
 
@@ -28,19 +42,21 @@ public class Discipline {
      */
     @JsonProperty("event")
     public void setEventByUUID(String eventUUID) {
-        setEvent(DataHandler.readEventByUUID(eventUUID));
+        Event e = DataHandler.readEventByUUID(eventUUID);
+        setEvent(e);
     }
 
     /**
      * sets participantList
      *
-     * @param participant the value to set
+     * @param participantsUUIDs the value to set
      */
-    @JsonProperty("participant")
-    public void setParticipantByUUID(List<String> participant) {
+    @JsonProperty("participants")
+    public void setParticipantsByUUID(List<String> participantsUUIDs) {
         setParticipants(new ArrayList<>());
-        for (String s : participant) {
-            this.participants.add(DataHandler.readParticipantByUUID(s));
+        for (String s : participantsUUIDs) {
+            Participant p = DataHandler.readParticipantByUUID(s);
+            this.participants.add(p);
         }
     }
 
