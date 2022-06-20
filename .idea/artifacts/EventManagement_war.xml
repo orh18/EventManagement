@@ -1,14 +1,14 @@
 <component name="ArtifactManager">
-  <artifact type="war" name="Veranstaltungverwaltung:war">
+  <artifact type="war" name="EventManagement:war">
     <output-path>$PROJECT_DIR$/target</output-path>
     <properties id="maven-jee-properties">
       <options>
-        <module>Veranstaltungverwaltung</module>
+        <module>EventManagement</module>
         <packaging>war</packaging>
       </options>
     </properties>
     <root id="archive" name="Veranstaltungverwaltung-1.0.war">
-      <element id="artifact" artifact-name="Veranstaltungverwaltung:war exploded" />
+      <element id="artifact" artifact-name="EventManagement:war exploded" />
     </root>
   </artifact>
 </component>
