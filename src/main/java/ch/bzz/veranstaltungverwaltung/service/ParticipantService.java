@@ -3,6 +3,7 @@ package ch.bzz.veranstaltungverwaltung.service;
 import ch.bzz.veranstaltungverwaltung.data.DataHandler;
 import ch.bzz.veranstaltungverwaltung.model.Participant;
 
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -35,7 +36,7 @@ public class ParticipantService {
 
     /**
      * reads a participant identified by the uuid
-     * @param participantUUID
+     * @param participantUUID the uuid of the participant
      * @return participant
      */
     @GET
@@ -57,25 +58,16 @@ public class ParticipantService {
 
     /**
      * inserts a new participant
-     * @param name
-     * @param lastName
-     * @param telNumber
+     * @param participant the participant
      * @return Response
      */
-    @PUT
+    @POST
     @Path("create")
     @Produces(MediaType.TEXT_PLAIN)
     public Response insertParticipant(
-            @FormParam("name") String name,
-            @FormParam("lastName") String lastName,
-            @FormParam("telNumber") String telNumber
+            @Valid @BeanParam Participant participant
     ) {
-        Participant participant = new Participant();
         participant.setParticipantUUID(UUID.randomUUID().toString());
-        participant.setName(name);
-        participant.setLastName(lastName);
-        participant.setTelNumber(telNumber);
-
         DataHandler.insertParticipant(participant);
 
         return Response
@@ -87,26 +79,21 @@ public class ParticipantService {
     /**
      *
      * updates a participant
-     * @param name
-     * @param lastName
-     * @param telNumber
+     * @param participant the participant
      * @return Response
      */
-    @POST
+    @PUT
     @Path("update")
     @Produces(MediaType.TEXT_PLAIN)
     public Response updateParticipant(
-            @FormParam("uuid") String participantUUID,
-            @FormParam("name") String name,
-            @FormParam("lastName") String lastName,
-            @FormParam("telNumber") String telNumber
+            @Valid @BeanParam Participant participant
     ) {
         int httpStatus = 200;
-        Participant participant = DataHandler.readParticipantByUUID(participantUUID);
-        if(participant != null) {
-            participant.setName(name);
-            participant.setLastName(lastName);
-            participant.setTelNumber(telNumber);
+        Participant oldParticipant = DataHandler.readParticipantByUUID(participant.getParticipantUUID());
+        if(oldParticipant != null) {
+            oldParticipant.setName(participant.getName());
+            oldParticipant.setLastName(participant.getLastName());
+            oldParticipant.setTelNumber(participant.getTelNumber());
 
             DataHandler.updateParticipant();
         } else {
@@ -121,10 +108,10 @@ public class ParticipantService {
 
     /**
      * deletes a participant identified by the uuid
-     * @param participantUUID
+     * @param participantUUID the uuid of the participant
      * @return Response
      */
-    @GET
+    @DELETE
     @Path("delete")
     @Produces(MediaType.TEXT_PLAIN)
     public Response deleteParticipant(
