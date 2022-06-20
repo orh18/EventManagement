@@ -5,8 +5,12 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
+import javax.validation.constraints.*;
+import javax.ws.rs.FormParam;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Event that hosts one or many disciplines
@@ -19,10 +23,29 @@ public class Event {
     @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate date;
 
+    @FormParam("eventUUID")
+    @Pattern(regexp = "[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}")
     private String eventUUID;
+
+    @FormParam("name")
+    @NotEmpty
+    @Size(min = 3, max = 40)
     private String name;
+
+    @FormParam("description")
+    @NotEmpty
+    @Size(min = 10, max = 100)
     private String description;
+
+    @FormParam("address")
+    @NotEmpty
+    @Size(min = 3, max = 40)
     private String address;
+
+    @FormParam("price")
+    @NotNull
+    @DecimalMin(value = "0")
+    @DecimalMax(value = "500")
     private BigDecimal price;
 
     /**
@@ -131,5 +154,15 @@ public class Event {
      */
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    /**
+     * checks if the date valid and sets it
+     */
+    public void checkDate(LocalDate date) {
+        LocalDate today = LocalDate.now();
+        if(date.isAfter(today)) {
+            setDate(date);
+        }
     }
 }
