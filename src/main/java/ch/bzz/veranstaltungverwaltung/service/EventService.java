@@ -101,7 +101,7 @@ public class EventService {
     ) {
         int httpStatus = 200;
         Event oldEvent = DataHandler.readEventByUUID(event.getEventUUID());
-        if(oldEvent != null) {
+        if(oldEvent != null && event.getDate() != null) {
             oldEvent.setName(event.getName());
             oldEvent.setDescription(event.getDescription());
             oldEvent.setAddress(event.getAddress());
@@ -110,7 +110,7 @@ public class EventService {
 
             DataHandler.updateEvent();
         } else {
-            httpStatus = 410;
+            httpStatus = 400;
         }
 
         return Response
