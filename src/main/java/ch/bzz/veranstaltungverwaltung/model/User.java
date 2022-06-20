@@ -1,7 +1,7 @@
 package ch.bzz.veranstaltungverwaltung.model;
 
 /**
- * User Klasse
+ * User class
  * @author  : Obin Rokibul Hoque
  * @date    : 2022-05-17
  * @version : 1.0
@@ -12,54 +12,54 @@ public class User {
     private String password;
 
     /**
-     * zurückgibt username
+     * gets username
      *
-     * @return Wert von username
+     * @return value of username
      */
     public String getUsername() {
         return username;
     }
 
     /**
-     * setzt username
+     * sets username
      *
-     * @param username der Wert zu setzen
+     * @param username the value to set
      */
     public void setUsername(String username) {
         this.username = username;
     }
 
     /**
-     * zurückgibt role
+     * gets role
      *
-     * @return Wert von role
+     * @return value of role
      */
     public String getRole() {
         return role;
     }
 
     /**
-     * setzt role
+     * sets role
      *
-     * @param role der Wert zu setzen
+     * @param role the value to set
      */
     public void setRole(String role) {
         this.role = role;
     }
 
     /**
-     * zurückgibt password
+     * gets password
      *
-     * @return Wert von password
+     * @return value of password
      */
     public String getPassword() {
         return password;
     }
 
     /**
-     * setzt password
+     * sets password
      *
-     * @param password der Wert zu setzen
+     * @param password the value to set
      */
     public void setPassword(String password) {
         this.password = password;

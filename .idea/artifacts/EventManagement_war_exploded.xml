@@ -1,19 +1,20 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="Veranstaltungverwaltung:war exploded">
+  <artifact type="exploded-war" name="EventManagement:war exploded">
     <output-path>$PROJECT_DIR$/target/Veranstaltungverwaltung-1.0</output-path>
     <properties id="maven-jee-properties">
       <options>
         <exploded>true</exploded>
-        <module>Veranstaltungverwaltung</module>
+        <module>EventManagement</module>
         <packaging>war</packaging>
       </options>
     </properties>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
-          <element id="module-output" name="Veranstaltungverwaltung" />
+          <element id="module-output" name="EventManagement" />
         </element>
         <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: jakarta.validation:jakarta.validation-api:2.0.2" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.9.6" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.9.0" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.9.6" />
@@ -23,7 +24,7 @@
       <element id="directory" name="META-INF">
         <element id="file-copy" path="$PROJECT_DIR$/target/Veranstaltungverwaltung-1.0/META-INF/MANIFEST.MF" />
       </element>
-      <element id="javaee-facet-resources" facet="Veranstaltungverwaltung/web/Web" />
+      <element id="javaee-facet-resources" facet="EventManagement/web/Web" />
     </root>
   </artifact>
 </component>
