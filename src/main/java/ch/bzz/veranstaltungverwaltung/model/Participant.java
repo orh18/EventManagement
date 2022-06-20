@@ -1,5 +1,10 @@
 package ch.bzz.veranstaltungverwaltung.model;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import javax.ws.rs.FormParam;
+
 /**
  * Participant participating in a discipline
  * @author  : Obin Rokibul Hoque
@@ -7,9 +12,23 @@ package ch.bzz.veranstaltungverwaltung.model;
  * @version : 1.0
  */
 public class Participant {
+    @FormParam("participantUUID")
+    @Pattern(regexp = "[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}")
     private String participantUUID;
+
+    @FormParam("name")
+    @NotEmpty
+    @Size(min = 3, max = 20)
     private String name;
+
+    @FormParam("lastName")
+    @NotEmpty
+    @Size(min = 3, max = 20)
     private String lastName;
+
+    @FormParam("telNumber")
+    @NotEmpty
+    @Pattern(regexp = "0(2[1-246-7]|3[1-4]|4[13-4]|5[25-6]|6[1-2]|7[15-68-9]|8[17]|91)[0-9]{7}")
     private String telNumber;
 
     /**
