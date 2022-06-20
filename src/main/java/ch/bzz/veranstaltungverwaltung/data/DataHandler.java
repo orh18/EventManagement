@@ -34,7 +34,7 @@ public class DataHandler {
 
     /**
      * reads all participant
-     * @return list of paticipant
+     * @return list of participant
      */
     public static List<Participant> readAllParticipants() {
         return getParticipantList();
@@ -42,7 +42,7 @@ public class DataHandler {
 
     /**
      * reads a participant by its uuid
-     * @param participantUUID
+     * @param participantUUID the uuid of the participant
      * @return the Participant (null=not found)
      */
     public static Participant readParticipantByUUID(String participantUUID) {
@@ -98,7 +98,7 @@ public class DataHandler {
 
     /**
      * reads a discipline by its uuid
-     * @param disciplineUUID
+     * @param disciplineUUID the uuid of the discipline
      * @return the Discipline (null=not found)
      */
     public static Discipline readDisciplineByUUID(String disciplineUUID) {
@@ -136,7 +136,7 @@ public class DataHandler {
     public static boolean deleteDiscipline(String disciplineUUID) {
         Discipline discipline = readDisciplineByUUID(disciplineUUID);
         if (discipline != null) {
-            getParticipantList().remove(discipline);
+            getDisciplineList().remove(discipline);
             writeDisciplineJSON();
             return true;
         } else {
@@ -155,7 +155,7 @@ public class DataHandler {
 
     /**
      * reads an event by its uuid
-     * @param eventUUID
+     * @param eventUUID the uuid of the event
      * @return the Event (null=not found)
      */
     public static Event readEventByUUID(String eventUUID) {
@@ -190,10 +190,10 @@ public class DataHandler {
      * @param eventUUID  the key
      * @return  success=true/false
      */
-    public static boolean deleteVeranstaltung(String eventUUID) {
+    public static boolean deleteEvent(String eventUUID) {
         Event event = readEventByUUID(eventUUID);
         if (event != null) {
-            getParticipantList().remove(event);
+            getEventList().remove(event);
             writeEventJSON();
             return true;
         } else {
@@ -226,7 +226,7 @@ public class DataHandler {
     private static void writeParticipantJSON() {
         ObjectMapper objectMapper = new ObjectMapper();
         ObjectWriter objectWriter = objectMapper.writer(new DefaultPrettyPrinter());
-        FileOutputStream fileOutputStream = null;
+        FileOutputStream fileOutputStream;
         Writer fileWriter;
 
         String bookPath = Config.getProperty("participantJSON");
@@ -249,8 +249,8 @@ public class DataHandler {
                     Paths.get(path)
             );
             ObjectMapper objectMapper = new ObjectMapper();
-            Discipline[] disziplinen = objectMapper.readValue(jsonData, Discipline[].class);
-            for (Discipline d : disziplinen) {
+            Discipline[] disciplines = objectMapper.readValue(jsonData, Discipline[].class);
+            for (Discipline d : disciplines) {
                 getDisciplineList().add(d);
             }
         } catch (IOException ex) {
@@ -264,7 +264,7 @@ public class DataHandler {
     private static void writeDisciplineJSON() {
         ObjectMapper objectMapper = new ObjectMapper();
         ObjectWriter objectWriter = objectMapper.writer(new DefaultPrettyPrinter());
-        FileOutputStream fileOutputStream = null;
+        FileOutputStream fileOutputStream;
         Writer fileWriter;
 
         String bookPath = Config.getProperty("disciplineJSON");
@@ -287,8 +287,8 @@ public class DataHandler {
                     Paths.get(path)
             );
             ObjectMapper objectMapper = new ObjectMapper();
-            Event[] veranstaltungen = objectMapper.readValue(jsonData, Event[].class);
-            for (Event v : veranstaltungen) {
+            Event[] events = objectMapper.readValue(jsonData, Event[].class);
+            for (Event v : events) {
                 getEventList().add(v);
             }
         } catch (IOException ex) {
@@ -302,12 +302,12 @@ public class DataHandler {
     private static void writeEventJSON() {
         ObjectMapper objectMapper = new ObjectMapper();
         ObjectWriter objectWriter = objectMapper.writer(new DefaultPrettyPrinter());
-        FileOutputStream fileOutputStream = null;
+        FileOutputStream fileOutputStream;
         Writer fileWriter;
 
-        String bookPath = Config.getProperty("eventJSON");
+        String eventPath = Config.getProperty("eventJSON");
         try {
-            fileOutputStream = new FileOutputStream(bookPath);
+            fileOutputStream = new FileOutputStream(eventPath);
             fileWriter = new BufferedWriter(new OutputStreamWriter(fileOutputStream, StandardCharsets.UTF_8));
             objectWriter.writeValue(fileWriter, getEventList());
         } catch (IOException ex) {
