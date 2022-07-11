@@ -3,6 +3,7 @@ package ch.bzz.veranstaltungverwaltung.service;
 import ch.bzz.veranstaltungverwaltung.data.DataHandler;
 import ch.bzz.veranstaltungverwaltung.model.Participant;
 
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -26,10 +27,19 @@ public class ParticipantService {
     @GET
     @Path("list")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response listParticipants() {
+    public Response listParticipants(
+            @CookieParam("role") String role
+    ) {
         List<Participant> participantList = DataHandler.readAllParticipants();
+        int httpStatus;
+        if(role == null || role.equals("guest")) {
+            httpStatus = 403;
+            participantList = null;
+        } else {
+            httpStatus = 200;
+        }
         return Response
-                .status(200)
+                .status(httpStatus)
                 .entity(participantList)
                 .build();
     }
@@ -43,11 +53,15 @@ public class ParticipantService {
     @Path("read")
     @Produces(MediaType.APPLICATION_JSON)
     public Response readParticipant(
-            @QueryParam("uuid") String participantUUID
+            @QueryParam("uuid") String participantUUID,
+            @CookieParam("role") String role
     ) {
         int httpStatus = 200;
         Participant participant = DataHandler.readParticipantByUUID(participantUUID);
-        if (participant == null) {
+        if (role == null || role.equals("guest")) {
+            httpStatus = 403;
+            participant = null;
+        } else if(participant == null) {
             httpStatus = 410;
         }
         return Response
@@ -65,13 +79,18 @@ public class ParticipantService {
     @Path("create")
     @Produces(MediaType.TEXT_PLAIN)
     public Response insertParticipant(
-            @Valid @BeanParam Participant participant
+            @Valid @BeanParam Participant participant,
+            @CookieParam("role") String role
     ) {
-        participant.setParticipantUUID(UUID.randomUUID().toString());
-        DataHandler.insertParticipant(participant);
-
+        int httpStatus = 200;
+        if(role == null || !role.equals("admin")) {
+            httpStatus = 403;
+        } else {
+            participant.setParticipantUUID(UUID.randomUUID().toString());
+            DataHandler.insertParticipant(participant);
+        }
         return Response
-                .status(200)
+                .status(httpStatus)
                 .entity("")
                 .build();
     }
@@ -86,15 +105,17 @@ public class ParticipantService {
     @Path("update")
     @Produces(MediaType.TEXT_PLAIN)
     public Response updateParticipant(
-            @Valid @BeanParam Participant participant
+            @Valid @BeanParam Participant participant,
+            @CookieParam("role") String role
     ) {
         int httpStatus = 200;
         Participant oldParticipant = DataHandler.readParticipantByUUID(participant.getParticipantUUID());
-        if(oldParticipant != null) {
+        if(role == null || !role.equals("admin")) {
+            httpStatus = 403;
+        } else if(oldParticipant != null) {
             oldParticipant.setName(participant.getName());
             oldParticipant.setLastName(participant.getLastName());
             oldParticipant.setTelNumber(participant.getTelNumber());
-
             DataHandler.updateParticipant();
         } else {
             httpStatus = 410;
@@ -115,12 +136,18 @@ public class ParticipantService {
     @Path("delete")
     @Produces(MediaType.TEXT_PLAIN)
     public Response deleteParticipant(
-            @QueryParam("uuid") String participantUUID
+            @QueryParam("uuid") String participantUUID,
+            @CookieParam("role") String role
     ) {
         int httpStatus = 200;
-        if (!DataHandler.deleteParticipant(participantUUID)) {
-            httpStatus = 410;
+        if(role == null || !role.equals("admin")) {
+            httpStatus = 403;
+        } else {
+            if (!DataHandler.deleteParticipant(participantUUID)) {
+                httpStatus = 410;
+            }
         }
+
         return Response
                 .status(httpStatus)
                 .entity("")
