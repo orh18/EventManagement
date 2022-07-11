@@ -101,7 +101,7 @@ public class DisciplineService {
             discipline.setDisciplineUUID(UUID.randomUUID().toString());
             discipline.setEventByUUID(eventUUID);
             discipline.setParticipantsByUUID(participants);
-            DataHandler.insertDiscipline(discipline);;
+            DataHandler.insertDiscipline(discipline);
         }
         return Response
                 .status(httpStatus)

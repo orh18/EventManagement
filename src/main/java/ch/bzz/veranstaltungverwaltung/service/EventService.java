@@ -2,7 +2,6 @@ package ch.bzz.veranstaltungverwaltung.service;
 
 import ch.bzz.veranstaltungverwaltung.data.DataHandler;
 import ch.bzz.veranstaltungverwaltung.model.Event;
-import ch.bzz.veranstaltungverwaltung.model.Participant;
 
 import javax.validation.Valid;
 import javax.ws.rs.*;
