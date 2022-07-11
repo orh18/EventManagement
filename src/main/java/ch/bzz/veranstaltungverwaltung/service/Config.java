@@ -32,6 +32,7 @@ public class Config extends Application {
         providers.add(ParticipantService.class);
         providers.add(DisciplineService.class);
         providers.add(EventService.class);
+        providers.add(UserService.class);
         return providers;
     }
 

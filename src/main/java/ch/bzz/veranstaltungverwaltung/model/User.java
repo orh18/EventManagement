@@ -7,9 +7,34 @@ package ch.bzz.veranstaltungverwaltung.model;
  * @version : 1.0
  */
 public class User {
+    private String userUUID;
     private String username;
     private String role;
     private String password;
+
+
+    /**
+     * default constructor
+     */
+    public User() {setRole("guest");}
+
+    /**
+     * gets userUUID
+     *
+     * @return value of userUUID
+     */
+    public String getUserUUID() {
+        return userUUID;
+    }
+
+    /**
+     * sets userUUID
+     *
+     * @param userUUID the value to set
+     */
+    public void setUserUUID(String userUUID) {
+        this.userUUID = userUUID;
+    }
 
     /**
      * gets username
