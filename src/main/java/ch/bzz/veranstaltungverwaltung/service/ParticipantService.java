@@ -31,12 +31,10 @@ public class ParticipantService {
             @CookieParam("role") String role
     ) {
         List<Participant> participantList = DataHandler.readAllParticipants();
-        int httpStatus;
+        int httpStatus = 200;
         if(role == null || role.equals("guest")) {
             httpStatus = 403;
             participantList = null;
-        } else {
-            httpStatus = 200;
         }
         return Response
                 .status(httpStatus)
