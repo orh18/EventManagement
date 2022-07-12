@@ -2,6 +2,7 @@ package ch.bzz.veranstaltungverwaltung.service;
 
 import ch.bzz.veranstaltungverwaltung.data.DataHandler;
 import ch.bzz.veranstaltungverwaltung.model.Event;
+import ch.bzz.veranstaltungverwaltung.util.AES256;
 
 import javax.validation.Valid;
 import javax.ws.rs.*;
@@ -21,21 +22,32 @@ import java.util.UUID;
 public class EventService {
     /**
      * reads a list of all events
-     * @return  events as JSON
+     *
+     * @return events as JSON
      */
     @GET
     @Path("list")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response listEvents() {
+    public Response listEvents(
+            @CookieParam("role") String role
+    ) {
         List<Event> eventList = DataHandler.readAllEvents();
+        int httpStatus;
+        if (role == null || AES256.decrypt(role).equals("guest")) {
+            httpStatus = 403;
+            eventList = null;
+        } else {
+            httpStatus = 200;
+        }
         return Response
-                .status(200)
+                .status(httpStatus)
                 .entity(eventList)
                 .build();
     }
 
     /**
      * reads an event identified by the uuid
+     *
      * @param eventUUID the uuid of the event
      * @return event
      */
@@ -43,20 +55,23 @@ public class EventService {
     @Path("read")
     @Produces(MediaType.APPLICATION_JSON)
     public Response readEvent(
-            @QueryParam("uuid") String eventUUID
+            @QueryParam("uuid") String eventUUID,
+            @CookieParam("role") String role
     ) {
+        int httpStatus = 200;
         Event event = DataHandler.readEventByUUID(eventUUID);
-        if(event != null) {
-            return Response
-                    .status(200)
-                    .entity(event)
-                    .build();
-        } else {
-            return Response
-                    .status(410)
-                    .build();
+        if (role == null || AES256.decrypt(role).equals("guest")) {
+            httpStatus = 403;
+            event = null;
+        } else if (event == null) {
+            httpStatus = 410;
         }
+        return Response
+                .status(httpStatus)
+                .entity(event)
+                .build();
     }
+
     /**
      * inserts a new event
      * @param event the event
@@ -68,16 +83,15 @@ public class EventService {
     @Produces(MediaType.TEXT_PLAIN)
     public Response insertEvent(
             @Valid @BeanParam Event event,
-            @FormParam("date") String date
+            @FormParam("date") String date,
+            @CookieParam("role") String role
     ) {
         int httpStatus = 200;
-        event.setEventUUID(UUID.randomUUID().toString());
-        event.checkDate(LocalDate.parse(date));
-
-        if (event.getDate() != null) {
-            DataHandler.insertEvent(event);
+        if(role == null || !AES256.decrypt(role).equals("admin")) {
+            httpStatus = 403;
         } else {
-            httpStatus = 400;
+            event.setEventUUID(UUID.randomUUID().toString());
+            DataHandler.insertEvent(event);
         }
 
         return Response
@@ -97,20 +111,22 @@ public class EventService {
     @Produces(MediaType.TEXT_PLAIN)
     public Response updateEvent(
             @Valid @BeanParam Event event,
-            @FormParam("date") String date
+            @FormParam("date") String date,
+            @CookieParam("role") String role
     ) {
         int httpStatus = 200;
         Event oldEvent = DataHandler.readEventByUUID(event.getEventUUID());
-        if(oldEvent != null && event.getDate() != null) {
+        if(role == null || !AES256.decrypt(role).equals("admin")) {
+            httpStatus = 403;
+        } else if(oldEvent != null) {
             oldEvent.setName(event.getName());
             oldEvent.setDescription(event.getDescription());
             oldEvent.setAddress(event.getAddress());
             oldEvent.setPrice(event.getPrice());
             oldEvent.checkDate(LocalDate.parse(date));
-
             DataHandler.updateEvent();
         } else {
-            httpStatus = 400;
+            httpStatus = 410;
         }
 
         return Response
@@ -128,11 +144,16 @@ public class EventService {
     @Path("delete")
     @Produces(MediaType.TEXT_PLAIN)
     public Response deleteEvent(
-            @QueryParam("uuid") String eventUUID
+            @QueryParam("uuid") String eventUUID,
+            @CookieParam("role") String role
     ) {
         int httpStatus = 200;
-        if (!DataHandler.deleteEvent(eventUUID)) {
-            httpStatus = 410;
+        if(role == null || !AES256.decrypt(role).equals("admin")) {
+            httpStatus = 403;
+        } else {
+            if (!DataHandler.deleteEvent(eventUUID)) {
+                httpStatus = 410;
+            }
         }
         return Response
                 .status(httpStatus)

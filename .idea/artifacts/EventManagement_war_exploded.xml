@@ -19,6 +19,7 @@
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.9.0" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.9.6" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.4.0" />
+          <element id="library" level="project" name="Maven: javax.annotation:javax.annotation-api:1.2" />
         </element>
       </element>
       <element id="directory" name="META-INF">

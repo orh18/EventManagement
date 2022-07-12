@@ -2,6 +2,7 @@ package ch.bzz.veranstaltungverwaltung.service;
 
 import ch.bzz.veranstaltungverwaltung.data.DataHandler;
 import ch.bzz.veranstaltungverwaltung.model.Discipline;
+import ch.bzz.veranstaltungverwaltung.util.AES256;
 
 
 import javax.validation.Valid;
@@ -29,10 +30,17 @@ public class DisciplineService {
     @GET
     @Path("list")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response listDisciplines() {
+    public Response listDisciplines(
+            @CookieParam("role") String role
+    ) {
         List<Discipline> disciplineList = DataHandler.readAllDisciplines();
+        int httpStatus = 200;
+        if(role == null || AES256.decrypt(role).equals("guest")) {
+            httpStatus = 403;
+            disciplineList = null;
+        }
         return Response
-                .status(200)
+                .status(httpStatus)
                 .entity(disciplineList)
                 .build();
     }
@@ -46,19 +54,22 @@ public class DisciplineService {
     @Path("read")
     @Produces(MediaType.APPLICATION_JSON)
     public Response readDiscipline(
-            @QueryParam("uuid") String disciplineUUID
+            @QueryParam("uuid") String disciplineUUID,
+            @CookieParam("role") String role
     ) {
+        int httpStatus = 200;
         Discipline discipline = DataHandler.readDisciplineByUUID(disciplineUUID);
-        if(discipline != null) {
+        if (role == null || AES256.decrypt(role).equals("guest")) {
+            httpStatus = 403;
+            discipline = null;
+        } else if(discipline == null) {
+            httpStatus = 410;
+        }
+
             return Response
-                    .status(200)
+                    .status(httpStatus)
                     .entity(discipline)
                     .build();
-        } else {
-            return Response
-                    .status(410)
-                    .build();
-        }
     }
 
     /**
@@ -80,16 +91,21 @@ public class DisciplineService {
 
             @NotEmpty
             @Pattern(regexp = "[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}")
-            @FormParam("event") String eventUUID
+            @FormParam("event") String eventUUID,
+
+            @CookieParam("role") String role
     ) {
-        discipline.setDisciplineUUID(UUID.randomUUID().toString());
-        discipline.setEventByUUID(eventUUID);
-        discipline.setParticipantsByUUID(participants);
-
-        DataHandler.insertDiscipline(discipline);
-
+        int httpStatus = 200;
+        if(role == null || !AES256.decrypt(role).equals("admin")) {
+            httpStatus = 403;
+        } else {
+            discipline.setDisciplineUUID(UUID.randomUUID().toString());
+            discipline.setEventByUUID(eventUUID);
+            discipline.setParticipantsByUUID(participants);
+            DataHandler.insertDiscipline(discipline);
+        }
         return Response
-                .status(200)
+                .status(httpStatus)
                 .entity("")
                 .build();
     }
@@ -108,11 +124,14 @@ public class DisciplineService {
     public Response updateDiscipline(
             @Valid @BeanParam Discipline discipline,
             @NotNull @FormParam("participants") List<@NotEmpty String> participants,
-            @NotNull @FormParam("event") String eventUUID
+            @NotNull @FormParam("event") String eventUUID,
+            @CookieParam("role") String role
     ) {
         int httpStatus = 200;
         Discipline oldDiscipline = DataHandler.readDisciplineByUUID(discipline.getDisciplineUUID());
-        if(oldDiscipline != null) {
+        if(role == null || !AES256.decrypt(role).equals("admin")) {
+            httpStatus = 403;
+        } else if(oldDiscipline != null) {
             oldDiscipline.setDisciplineName(discipline.getDisciplineName());
             oldDiscipline.setDescription(discipline.getDescription());
             oldDiscipline.setEventByUUID(eventUUID);
@@ -122,7 +141,6 @@ public class DisciplineService {
         } else {
             httpStatus = 410;
         }
-
         return Response
                 .status(httpStatus)
                 .entity("")
@@ -138,12 +156,18 @@ public class DisciplineService {
     @Path("delete")
     @Produces(MediaType.TEXT_PLAIN)
     public Response deleteDiscipline(
-            @QueryParam("uuid") String disciplineUUID
+            @QueryParam("uuid") String disciplineUUID,
+            @CookieParam("role") String role
     ) {
         int httpStatus = 200;
-        if (!DataHandler.deleteDiscipline(disciplineUUID)) {
-            httpStatus = 410;
+        if(role == null || !AES256.decrypt(role).equals("admin")) {
+            httpStatus = 403;
+        } else {
+            if (!DataHandler.deleteDiscipline(disciplineUUID)) {
+                httpStatus = 410;
+            }
         }
+
         return Response
                 .status(httpStatus)
                 .entity("")

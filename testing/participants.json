@@ -1,0 +1,26 @@
+[ {
+  "participantUUID" : "cba157ca-2813-4b37-be89-523eded251a6",
+  "name" : "Hans",
+  "lastName" : "Peter",
+  "telNumber" : "076 485 25 87"
+}, {
+  "participantUUID" : "ef36a460-b0b9-4bf2-88aa-368fc7ee141f",
+  "name" : "Hans",
+  "lastName" : "Müller",
+  "telNumber" : "078 461 27 97"
+}, {
+  "participantUUID" : "f42b308f-3b04-4fd2-afa4-6466ddc42804",
+  "name" : "Hans",
+  "lastName" : "Meier",
+  "telNumber" : "077 753 58 96"
+}, {
+  "participantUUID" : "9768eee8-eb2e-4674-9e6d-cdb82abf0cb9",
+  "name" : "Hans",
+  "lastName" : "Muster",
+  "telNumber" : "075 986 98 73"
+}, {
+  "participantUUID" : "d99d8a74-860e-4227-9a00-d751feb5c031",
+  "name" : "Obin",
+  "lastName" : "Rokibul Hoque",
+  "telNumber" : "0765330540"
+} ]
