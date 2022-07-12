@@ -2,6 +2,7 @@ package ch.bzz.veranstaltungverwaltung.service;
 
 import ch.bzz.veranstaltungverwaltung.data.DataHandler;
 import ch.bzz.veranstaltungverwaltung.model.Participant;
+import ch.bzz.veranstaltungverwaltung.util.AES256;
 
 import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
@@ -32,7 +33,7 @@ public class ParticipantService {
     ) {
         List<Participant> participantList = DataHandler.readAllParticipants();
         int httpStatus = 200;
-        if(role == null || role.equals("guest")) {
+        if(role == null || AES256.decrypt(role).equals("guest")) {
             httpStatus = 403;
             participantList = null;
         }
@@ -56,7 +57,7 @@ public class ParticipantService {
     ) {
         int httpStatus = 200;
         Participant participant = DataHandler.readParticipantByUUID(participantUUID);
-        if (role == null || role.equals("guest")) {
+        if (role == null || AES256.decrypt(role).equals("guest")) {
             httpStatus = 403;
             participant = null;
         } else if(participant == null) {
@@ -81,7 +82,7 @@ public class ParticipantService {
             @CookieParam("role") String role
     ) {
         int httpStatus = 200;
-        if(role == null || !role.equals("admin")) {
+        if(role == null || !AES256.decrypt(role).equals("admin")) {
             httpStatus = 403;
         } else {
             participant.setParticipantUUID(UUID.randomUUID().toString());
@@ -107,8 +108,9 @@ public class ParticipantService {
             @CookieParam("role") String role
     ) {
         int httpStatus = 200;
+
         Participant oldParticipant = DataHandler.readParticipantByUUID(participant.getParticipantUUID());
-        if(role == null || !role.equals("admin")) {
+        if(role == null || !AES256.decrypt(role).equals("admin")) {
             httpStatus = 403;
         } else if(oldParticipant != null) {
             oldParticipant.setName(participant.getName());
@@ -138,7 +140,7 @@ public class ParticipantService {
             @CookieParam("role") String role
     ) {
         int httpStatus = 200;
-        if(role == null || !role.equals("admin")) {
+        if(role == null || !AES256.decrypt(role).equals("admin")) {
             httpStatus = 403;
         } else {
             if (!DataHandler.deleteParticipant(participantUUID)) {

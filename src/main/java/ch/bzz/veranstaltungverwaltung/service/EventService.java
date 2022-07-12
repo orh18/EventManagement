@@ -2,6 +2,7 @@ package ch.bzz.veranstaltungverwaltung.service;
 
 import ch.bzz.veranstaltungverwaltung.data.DataHandler;
 import ch.bzz.veranstaltungverwaltung.model.Event;
+import ch.bzz.veranstaltungverwaltung.util.AES256;
 
 import javax.validation.Valid;
 import javax.ws.rs.*;
@@ -32,7 +33,7 @@ public class EventService {
     ) {
         List<Event> eventList = DataHandler.readAllEvents();
         int httpStatus;
-        if (role == null || role.equals("guest")) {
+        if (role == null || AES256.decrypt(role).equals("guest")) {
             httpStatus = 403;
             eventList = null;
         } else {
@@ -59,7 +60,7 @@ public class EventService {
     ) {
         int httpStatus = 200;
         Event event = DataHandler.readEventByUUID(eventUUID);
-        if (role == null || role.equals("guest")) {
+        if (role == null || AES256.decrypt(role).equals("guest")) {
             httpStatus = 403;
             event = null;
         } else if (event == null) {
@@ -86,7 +87,7 @@ public class EventService {
             @CookieParam("role") String role
     ) {
         int httpStatus = 200;
-        if(role == null || !role.equals("admin")) {
+        if(role == null || !AES256.decrypt(role).equals("admin")) {
             httpStatus = 403;
         } else {
             event.setEventUUID(UUID.randomUUID().toString());
@@ -115,9 +116,9 @@ public class EventService {
     ) {
         int httpStatus = 200;
         Event oldEvent = DataHandler.readEventByUUID(event.getEventUUID());
-        if(role == null || !role.equals("admin")) {
+        if(role == null || !AES256.decrypt(role).equals("admin")) {
             httpStatus = 403;
-        } else if(oldEvent != null && event.getDate() != null) {
+        } else if(oldEvent != null) {
             oldEvent.setName(event.getName());
             oldEvent.setDescription(event.getDescription());
             oldEvent.setAddress(event.getAddress());
@@ -147,7 +148,7 @@ public class EventService {
             @CookieParam("role") String role
     ) {
         int httpStatus = 200;
-        if(role == null || !role.equals("admin")) {
+        if(role == null || !AES256.decrypt(role).equals("admin")) {
             httpStatus = 403;
         } else {
             if (!DataHandler.deleteEvent(eventUUID)) {

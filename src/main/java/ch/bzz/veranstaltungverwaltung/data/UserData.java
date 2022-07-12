@@ -41,6 +41,24 @@ public class UserData {
     }
 
     /**
+     * finds a user by username / password
+     * @param username
+     * @return User object / null=not found
+     */
+
+    public static User readUser(String username) {
+        User user = new User();
+        List<User> userList = readJSON();
+        for (User entry : userList) {
+            if(entry.getUsername().equals(username)) {
+                user = entry;
+                break;
+            }
+        }
+        return user;
+    }
+
+    /**
      * reads the json file as a List
      * @return userList
      */

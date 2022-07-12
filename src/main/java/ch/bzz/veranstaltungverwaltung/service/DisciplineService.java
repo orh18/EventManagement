@@ -2,6 +2,7 @@ package ch.bzz.veranstaltungverwaltung.service;
 
 import ch.bzz.veranstaltungverwaltung.data.DataHandler;
 import ch.bzz.veranstaltungverwaltung.model.Discipline;
+import ch.bzz.veranstaltungverwaltung.util.AES256;
 
 
 import javax.validation.Valid;
@@ -34,7 +35,7 @@ public class DisciplineService {
     ) {
         List<Discipline> disciplineList = DataHandler.readAllDisciplines();
         int httpStatus = 200;
-        if(role == null || role.equals("guest")) {
+        if(role == null || AES256.decrypt(role).equals("guest")) {
             httpStatus = 403;
             disciplineList = null;
         }
@@ -58,7 +59,7 @@ public class DisciplineService {
     ) {
         int httpStatus = 200;
         Discipline discipline = DataHandler.readDisciplineByUUID(disciplineUUID);
-        if (role == null || role.equals("guest")) {
+        if (role == null || AES256.decrypt(role).equals("guest")) {
             httpStatus = 403;
             discipline = null;
         } else if(discipline == null) {
@@ -95,7 +96,7 @@ public class DisciplineService {
             @CookieParam("role") String role
     ) {
         int httpStatus = 200;
-        if(role == null || !role.equals("admin")) {
+        if(role == null || !AES256.decrypt(role).equals("admin")) {
             httpStatus = 403;
         } else {
             discipline.setDisciplineUUID(UUID.randomUUID().toString());
@@ -128,7 +129,7 @@ public class DisciplineService {
     ) {
         int httpStatus = 200;
         Discipline oldDiscipline = DataHandler.readDisciplineByUUID(discipline.getDisciplineUUID());
-        if(role == null || !role.equals("admin")) {
+        if(role == null || !AES256.decrypt(role).equals("admin")) {
             httpStatus = 403;
         } else if(oldDiscipline != null) {
             oldDiscipline.setDisciplineName(discipline.getDisciplineName());
@@ -159,7 +160,7 @@ public class DisciplineService {
             @CookieParam("role") String role
     ) {
         int httpStatus = 200;
-        if(role == null || !role.equals("admin")) {
+        if(role == null || !AES256.decrypt(role).equals("admin")) {
             httpStatus = 403;
         } else {
             if (!DataHandler.deleteDiscipline(disciplineUUID)) {
