@@ -4,7 +4,6 @@ import ch.bzz.veranstaltungverwaltung.data.DataHandler;
 import ch.bzz.veranstaltungverwaltung.model.Participant;
 import ch.bzz.veranstaltungverwaltung.util.AES256;
 
-import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -14,16 +13,18 @@ import java.util.UUID;
 
 /**
  * services for reading, adding, changing, and deleting participant
- * @author  : Obin Rokibul Hoque
- * @date    : 2022-05-22
+ *
+ * @author : Obin Rokibul Hoque
  * @version : 1.0
+ * @date : 2022-05-22
  */
 @Path("participant")
 public class ParticipantService {
 
     /**
      * reads a list of all participants
-     * @return  participants as JSON
+     *
+     * @return participants as JSON
      */
     @GET
     @Path("list")
@@ -33,7 +34,7 @@ public class ParticipantService {
     ) {
         List<Participant> participantList = DataHandler.readAllParticipants();
         int httpStatus = 200;
-        if(role == null || AES256.decrypt(role).equals("guest")) {
+        if (role == null || AES256.decrypt(role).equals("guest")) {
             httpStatus = 403;
             participantList = null;
         }
@@ -45,6 +46,7 @@ public class ParticipantService {
 
     /**
      * reads a participant identified by the uuid
+     *
      * @param participantUUID the uuid of the participant
      * @return participant
      */
@@ -60,7 +62,7 @@ public class ParticipantService {
         if (role == null || AES256.decrypt(role).equals("guest")) {
             httpStatus = 403;
             participant = null;
-        } else if(participant == null) {
+        } else if (participant == null) {
             httpStatus = 410;
         }
         return Response
@@ -71,6 +73,7 @@ public class ParticipantService {
 
     /**
      * inserts a new participant
+     *
      * @param participant the participant
      * @return Response
      */
@@ -82,7 +85,7 @@ public class ParticipantService {
             @CookieParam("role") String role
     ) {
         int httpStatus = 200;
-        if(role == null || !AES256.decrypt(role).equals("admin")) {
+        if (role == null || !AES256.decrypt(role).equals("admin")) {
             httpStatus = 403;
         } else {
             participant.setParticipantUUID(UUID.randomUUID().toString());
@@ -95,8 +98,8 @@ public class ParticipantService {
     }
 
     /**
-     *
      * updates a participant
+     *
      * @param participant the participant
      * @return Response
      */
@@ -110,9 +113,9 @@ public class ParticipantService {
         int httpStatus = 200;
 
         Participant oldParticipant = DataHandler.readParticipantByUUID(participant.getParticipantUUID());
-        if(role == null || !AES256.decrypt(role).equals("admin")) {
+        if (role == null || !AES256.decrypt(role).equals("admin")) {
             httpStatus = 403;
-        } else if(oldParticipant != null) {
+        } else if (oldParticipant != null) {
             oldParticipant.setName(participant.getName());
             oldParticipant.setLastName(participant.getLastName());
             oldParticipant.setTelNumber(participant.getTelNumber());
@@ -129,6 +132,7 @@ public class ParticipantService {
 
     /**
      * deletes a participant identified by the uuid
+     *
      * @param participantUUID the uuid of the participant
      * @return Response
      */
@@ -140,7 +144,7 @@ public class ParticipantService {
             @CookieParam("role") String role
     ) {
         int httpStatus = 200;
-        if(role == null || !AES256.decrypt(role).equals("admin")) {
+        if (role == null || !AES256.decrypt(role).equals("admin")) {
             httpStatus = 403;
         } else {
             if (!DataHandler.deleteParticipant(participantUUID)) {

@@ -9,14 +9,13 @@ import javax.validation.constraints.*;
 import javax.ws.rs.FormParam;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 
 /**
  * Event that hosts one or many disciplines
- * @author  : Obin Rokibul Hoque
- * @date    : 2022-05-17
+ *
+ * @author : Obin Rokibul Hoque
  * @version : 1.0
+ * @date : 2022-05-17
  */
 public class Event {
     @JsonDeserialize(using = LocalDateDeserializer.class)
@@ -161,7 +160,7 @@ public class Event {
      */
     public void checkDate(LocalDate date) {
         LocalDate today = LocalDate.now();
-        if(date.isAfter(today)) {
+        if (date.isAfter(today)) {
             setDate(date);
         }
     }

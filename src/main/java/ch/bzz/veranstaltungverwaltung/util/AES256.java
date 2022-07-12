@@ -12,7 +12,6 @@ import java.util.Base64;
 
 /**
  * @author Lokesh Gupta(<a href="https://howtodoinjava.com/java/java-security/aes-256-encryption-decryption/%22%3Ehttps://howtodoinjava.com/java/java-security/aes-256-encryption-decryption/</a>)
- *
  */
 public class AES256 {
     private static final String SECRET_KEY = "my_super_secret_key";
@@ -20,6 +19,7 @@ public class AES256 {
 
     /**
      * encrypts the given value
+     *
      * @param strToEncrypt the value to encrypt
      * @return
      */
@@ -45,6 +45,7 @@ public class AES256 {
 
     /**
      * decrypts the given value
+     *
      * @param strToDecrypt the value to decrypt
      * @return
      */

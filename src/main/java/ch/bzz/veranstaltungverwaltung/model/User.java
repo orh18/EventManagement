@@ -2,9 +2,10 @@ package ch.bzz.veranstaltungverwaltung.model;
 
 /**
  * User class
- * @author  : Obin Rokibul Hoque
- * @date    : 2022-05-17
+ *
+ * @author : Obin Rokibul Hoque
  * @version : 1.0
+ * @date : 2022-05-17
  */
 public class User {
     private String userUUID;
@@ -16,7 +17,9 @@ public class User {
     /**
      * default constructor
      */
-    public User() {setRole("guest");}
+    public User() {
+        setRole("guest");
+    }
 
     /**
      * gets userUUID
@@ -90,7 +93,9 @@ public class User {
         this.password = password;
     }
 
-    public void logOn() {}
+    public void logOn() {
+    }
 
-    public void logOff() {}
+    public void logOff() {
+    }
 }

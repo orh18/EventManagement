@@ -11,30 +11,15 @@ import java.util.Set;
 
 /**
  * configure the web services and properties
- * @author  : Obin Rokibul Hoque
- * @date    : 2022-05-17
+ *
+ * @author : Obin Rokibul Hoque
  * @version : 1.0
+ * @date : 2022-05-17
  */
 @ApplicationPath("/resource")
 public class Config extends Application {
     private static final String PROPERTIES_PATH = "/home/bzz/webapp/eventList.properties";
     private static Properties properties = null;
-
-    /**
-     * define all provider classes
-     *
-     * @return set of classes
-     */
-    @Override
-    public Set<Class<?>> getClasses() {
-        HashSet providers = new HashSet<Class<?>>();
-        providers.add(TestService.class);
-        providers.add(ParticipantService.class);
-        providers.add(DisciplineService.class);
-        providers.add(EventService.class);
-        providers.add(UserService.class);
-        return providers;
-    }
 
     /**
      * Gets the value of a property
@@ -75,5 +60,21 @@ public class Config extends Application {
      */
     private static void setProperties(Properties properties) {
         Config.properties = properties;
+    }
+
+    /**
+     * define all provider classes
+     *
+     * @return set of classes
+     */
+    @Override
+    public Set<Class<?>> getClasses() {
+        HashSet providers = new HashSet<Class<?>>();
+        providers.add(TestService.class);
+        providers.add(ParticipantService.class);
+        providers.add(DisciplineService.class);
+        providers.add(EventService.class);
+        providers.add(UserService.class);
+        return providers;
     }
 }

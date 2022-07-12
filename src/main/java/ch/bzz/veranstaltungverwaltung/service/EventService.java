@@ -14,9 +14,10 @@ import java.util.UUID;
 
 /**
  * services for reading, adding, changing and deleting events
- * @author  : Obin Rokibul Hoque
- * @date    : 2022-05-22
+ *
+ * @author : Obin Rokibul Hoque
  * @version : 1.0
+ * @date : 2022-05-22
  */
 @Path("event")
 public class EventService {
@@ -74,8 +75,9 @@ public class EventService {
 
     /**
      * inserts a new event
+     *
      * @param event the event
-     * @param date the date of the event
+     * @param date  the date of the event
      * @return Response
      */
     @POST
@@ -87,7 +89,7 @@ public class EventService {
             @CookieParam("role") String role
     ) {
         int httpStatus = 200;
-        if(role == null || !AES256.decrypt(role).equals("admin")) {
+        if (role == null || !AES256.decrypt(role).equals("admin")) {
             httpStatus = 403;
         } else {
             event.setEventUUID(UUID.randomUUID().toString());
@@ -102,8 +104,9 @@ public class EventService {
 
     /**
      * updates an event
+     *
      * @param event the event
-     * @param date the date of the event
+     * @param date  the date of the event
      * @return Response
      */
     @PUT
@@ -116,9 +119,9 @@ public class EventService {
     ) {
         int httpStatus = 200;
         Event oldEvent = DataHandler.readEventByUUID(event.getEventUUID());
-        if(role == null || !AES256.decrypt(role).equals("admin")) {
+        if (role == null || !AES256.decrypt(role).equals("admin")) {
             httpStatus = 403;
-        } else if(oldEvent != null) {
+        } else if (oldEvent != null) {
             oldEvent.setName(event.getName());
             oldEvent.setDescription(event.getDescription());
             oldEvent.setAddress(event.getAddress());
@@ -137,6 +140,7 @@ public class EventService {
 
     /**
      * deletes an event identified by the uuid
+     *
      * @param eventUUID the uuid of the event
      * @return Response
      */
@@ -148,7 +152,7 @@ public class EventService {
             @CookieParam("role") String role
     ) {
         int httpStatus = 200;
-        if(role == null || !AES256.decrypt(role).equals("admin")) {
+        if (role == null || !AES256.decrypt(role).equals("admin")) {
             httpStatus = 403;
         } else {
             if (!DataHandler.deleteEvent(eventUUID)) {
