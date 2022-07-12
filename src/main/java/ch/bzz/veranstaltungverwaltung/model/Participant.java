@@ -7,9 +7,10 @@ import javax.ws.rs.FormParam;
 
 /**
  * Participant participating in a discipline
- * @author  : Obin Rokibul Hoque
- * @date    : 2022-05-17
+ *
+ * @author : Obin Rokibul Hoque
  * @version : 1.0
+ * @date : 2022-05-17
  */
 public class Participant {
     @FormParam("participantUUID")

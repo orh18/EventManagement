@@ -17,9 +17,10 @@ import java.util.List;
 
 /**
  * reads and writes the data in the JSON-files
- * @author  : Obin Rokibul Hoque
- * @date    : 2022-05-17
+ *
+ * @author : Obin Rokibul Hoque
  * @version : 1.0
+ * @date : 2022-05-17
  */
 public class DataHandler {
     private static List<Participant> participantList;
@@ -34,6 +35,7 @@ public class DataHandler {
 
     /**
      * reads all participant
+     *
      * @return list of participant
      */
     public static List<Participant> readAllParticipants() {
@@ -42,6 +44,7 @@ public class DataHandler {
 
     /**
      * reads a participant by its uuid
+     *
      * @param participantUUID the uuid of the participant
      * @return the Participant (null=not found)
      */
@@ -74,8 +77,9 @@ public class DataHandler {
 
     /**
      * deletes a participant identified by the participantUUID
-     * @param participantUUID  the key
-     * @return  success=true/false
+     *
+     * @param participantUUID the key
+     * @return success=true/false
      */
     public static boolean deleteParticipant(String participantUUID) {
         Participant participant = readParticipantByUUID(participantUUID);
@@ -90,6 +94,7 @@ public class DataHandler {
 
     /**
      * reads all discipline
+     *
      * @return list of discipline
      */
     public static List<Discipline> readAllDisciplines() {
@@ -98,6 +103,7 @@ public class DataHandler {
 
     /**
      * reads a discipline by its uuid
+     *
      * @param disciplineUUID the uuid of the discipline
      * @return the Discipline (null=not found)
      */
@@ -130,8 +136,9 @@ public class DataHandler {
 
     /**
      * deletes a discipline identified by the disciplineUUID
-     * @param disciplineUUID  the key
-     * @return  success=true/false
+     *
+     * @param disciplineUUID the key
+     * @return success=true/false
      */
     public static boolean deleteDiscipline(String disciplineUUID) {
         Discipline discipline = readDisciplineByUUID(disciplineUUID);
@@ -147,6 +154,7 @@ public class DataHandler {
 
     /**
      * reads all events
+     *
      * @return list of events
      */
     public static List<Event> readAllEvents() {
@@ -155,6 +163,7 @@ public class DataHandler {
 
     /**
      * reads an event by its uuid
+     *
      * @param eventUUID the uuid of the event
      * @return the Event (null=not found)
      */
@@ -187,8 +196,9 @@ public class DataHandler {
 
     /**
      * deletes an event identified by the eventUUID
-     * @param eventUUID  the key
-     * @return  success=true/false
+     *
+     * @param eventUUID the key
+     * @return success=true/false
      */
     public static boolean deleteEvent(String eventUUID) {
         Event event = readEventByUUID(eventUUID);
@@ -321,7 +331,7 @@ public class DataHandler {
      * @return value of participantList
      */
     private static List<Participant> getParticipantList() {
-        if(participantList == null) {
+        if (participantList == null) {
             setParticipantList(new ArrayList<>());
             readParticipantJSON();
         }
@@ -343,7 +353,7 @@ public class DataHandler {
      * @return value of the disciplineList
      */
     public static List<Discipline> getDisciplineList() {
-        if(disciplineList == null) {
+        if (disciplineList == null) {
             setDisciplineList(new ArrayList<>());
             readDisciplineJSON();
         }
@@ -365,7 +375,7 @@ public class DataHandler {
      * @return value of the eventList
      */
     public static List<Event> getEventList() {
-        if(eventList == null) {
+        if (eventList == null) {
             setEventList(new ArrayList<>());
             readEventJSON();
         }

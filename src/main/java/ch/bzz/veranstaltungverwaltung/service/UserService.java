@@ -1,6 +1,5 @@
 package ch.bzz.veranstaltungverwaltung.service;
 
-import ch.bzz.veranstaltungverwaltung.data.DataHandler;
 import ch.bzz.veranstaltungverwaltung.data.UserData;
 import ch.bzz.veranstaltungverwaltung.model.User;
 import ch.bzz.veranstaltungverwaltung.util.AES256;
@@ -14,24 +13,34 @@ import java.util.HashMap;
 
 /**
  * services for authentication and authorization of users
+ *
+ * @author : Obin Rokibul Hoque
+ * @version : 1
+ * @date : 2022-07-11
  */
 @PermitAll
 @Path("user")
 public class UserService {
     static HashMap<String, Integer> twoFAMap = new HashMap<>();
 
+    /**
+     * login
+     *
+     * @param username the username of the user
+     * @param password the password of the user
+     * @return Response object with name-cookie
+     */
     @POST
     @Path("login")
     @Produces(MediaType.TEXT_PLAIN)
-    public Response login (
+    public Response login(
             @FormParam("username") String username,
             @FormParam("password") String password
-    )
-    {
+    ) {
         int httpStatus;
 
         User user = UserData.readUser(username, password);
-        if(user == null || user.getRole() == null || user.getRole().equals("guest")) {
+        if (user == null || user.getRole() == null || user.getRole().equals("guest")) {
             httpStatus = 401;
         } else {
             httpStatus = 200;
@@ -63,7 +72,7 @@ public class UserService {
     @DELETE
     @Path("logout")
     @Produces(MediaType.TEXT_PLAIN)
-    public Response logout () {
+    public Response logout() {
 
         NewCookie cookie = new NewCookie(
                 "role",
@@ -118,7 +127,7 @@ public class UserService {
     ) {
         String loggedInName = AES256.decrypt(name);
         int expected = twoFAMap.get(loggedInName);
-        if(nr == expected) {
+        if (nr == expected) {
             User user = UserData.readUser(loggedInName);
             NewCookie cookieRole = new NewCookie(
                     "role",

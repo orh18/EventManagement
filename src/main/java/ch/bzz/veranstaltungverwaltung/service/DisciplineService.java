@@ -4,7 +4,6 @@ import ch.bzz.veranstaltungverwaltung.data.DataHandler;
 import ch.bzz.veranstaltungverwaltung.model.Discipline;
 import ch.bzz.veranstaltungverwaltung.util.AES256;
 
-
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -17,14 +16,16 @@ import java.util.UUID;
 
 /**
  * services for reading, adding, changing, and deleting discipline
- * @author  : Obin Rokibul Hoque
- * @date    : 2022-05-22
+ *
+ * @author : Obin Rokibul Hoque
  * @version : 1.0
+ * @date : 2022-05-22
  */
 @Path("discipline")
 public class DisciplineService {
     /**
      * reads a list of all disciplines
+     *
      * @return disciplines as JSON
      */
     @GET
@@ -35,7 +36,7 @@ public class DisciplineService {
     ) {
         List<Discipline> disciplineList = DataHandler.readAllDisciplines();
         int httpStatus = 200;
-        if(role == null || AES256.decrypt(role).equals("guest")) {
+        if (role == null || AES256.decrypt(role).equals("guest")) {
             httpStatus = 403;
             disciplineList = null;
         }
@@ -47,8 +48,9 @@ public class DisciplineService {
 
     /**
      * reads a discipline identified by the uuid
+     *
      * @param disciplineUUID the uuid of the discipline
-     * @return  disciplines as JSON
+     * @return disciplines as JSON
      */
     @GET
     @Path("read")
@@ -62,21 +64,22 @@ public class DisciplineService {
         if (role == null || AES256.decrypt(role).equals("guest")) {
             httpStatus = 403;
             discipline = null;
-        } else if(discipline == null) {
+        } else if (discipline == null) {
             httpStatus = 410;
         }
 
-            return Response
-                    .status(httpStatus)
-                    .entity(discipline)
-                    .build();
+        return Response
+                .status(httpStatus)
+                .entity(discipline)
+                .build();
     }
 
     /**
      * inserts a new discipline
-     * @param discipline the discipline
+     *
+     * @param discipline   the discipline
      * @param participants the uuids of the participants
-     * @param eventUUID the uuid of the event
+     * @param eventUUID    the uuid of the event
      * @return Response
      */
     @POST
@@ -86,8 +89,8 @@ public class DisciplineService {
             @Valid @BeanParam Discipline discipline,
 
             @FormParam("participants")
-            List<@NotEmpty @Pattern(regexp = "[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}") String>
-            participants,
+                    List<@NotEmpty @Pattern(regexp = "[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}") String>
+                    participants,
 
             @NotEmpty
             @Pattern(regexp = "[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}")
@@ -96,7 +99,7 @@ public class DisciplineService {
             @CookieParam("role") String role
     ) {
         int httpStatus = 200;
-        if(role == null || !AES256.decrypt(role).equals("admin")) {
+        if (role == null || !AES256.decrypt(role).equals("admin")) {
             httpStatus = 403;
         } else {
             discipline.setDisciplineUUID(UUID.randomUUID().toString());
@@ -111,11 +114,11 @@ public class DisciplineService {
     }
 
     /**
-     *
      * updates a discipline
-     * @param discipline the discipline
+     *
+     * @param discipline   the discipline
      * @param participants the uuids of the participants
-     * @param eventUUID the uuid of the event
+     * @param eventUUID    the uuid of the event
      * @return Response
      */
     @PUT
@@ -129,9 +132,9 @@ public class DisciplineService {
     ) {
         int httpStatus = 200;
         Discipline oldDiscipline = DataHandler.readDisciplineByUUID(discipline.getDisciplineUUID());
-        if(role == null || !AES256.decrypt(role).equals("admin")) {
+        if (role == null || !AES256.decrypt(role).equals("admin")) {
             httpStatus = 403;
-        } else if(oldDiscipline != null) {
+        } else if (oldDiscipline != null) {
             oldDiscipline.setDisciplineName(discipline.getDisciplineName());
             oldDiscipline.setDescription(discipline.getDescription());
             oldDiscipline.setEventByUUID(eventUUID);
@@ -149,6 +152,7 @@ public class DisciplineService {
 
     /**
      * deletes a discipline identified by the uuid
+     *
      * @param disciplineUUID the uuid of the discipline
      * @return Response
      */
@@ -160,7 +164,7 @@ public class DisciplineService {
             @CookieParam("role") String role
     ) {
         int httpStatus = 200;
-        if(role == null || !AES256.decrypt(role).equals("admin")) {
+        if (role == null || !AES256.decrypt(role).equals("admin")) {
             httpStatus = 403;
         } else {
             if (!DataHandler.deleteDiscipline(disciplineUUID)) {

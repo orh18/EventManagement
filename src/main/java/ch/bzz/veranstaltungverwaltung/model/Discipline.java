@@ -13,9 +13,10 @@ import java.util.List;
 
 /**
  * Discipline of an event
- * @author  : Obin Rokibul Hoque
- * @date    : 2022-05-17
+ *
+ * @author : Obin Rokibul Hoque
  * @version : 1.0
+ * @date : 2022-05-17
  */
 public class Discipline {
     @FormParam("disciplineUUID")
