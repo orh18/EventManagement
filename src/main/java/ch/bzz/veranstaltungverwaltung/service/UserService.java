@@ -32,7 +32,7 @@ public class UserService {
 
         User user = UserData.readUser(username, password);
         if(user == null || user.getRole() == null || user.getRole().equals("guest")) {
-            httpStatus = 404;
+            httpStatus = 401;
         } else {
             httpStatus = 200;
         }
