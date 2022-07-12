@@ -1,6 +1,5 @@
 package ch.bzz.veranstaltungverwaltung.service;
 
-import ch.bzz.veranstaltungverwaltung.data.DataHandler;
 import ch.bzz.veranstaltungverwaltung.data.UserData;
 import ch.bzz.veranstaltungverwaltung.model.User;
 import ch.bzz.veranstaltungverwaltung.util.AES256;
@@ -14,12 +13,21 @@ import java.util.HashMap;
 
 /**
  * services for authentication and authorization of users
+ * @author  : Obin Rokibul Hoque
+ * @date    : 2022-07-11
+ * @version : 1
  */
 @PermitAll
 @Path("user")
 public class UserService {
     static HashMap<String, Integer> twoFAMap = new HashMap<>();
 
+    /**
+     * login
+     * @param username the username of the user
+     * @param password the password of the user
+     * @return Response object with name-cookie
+     */
     @POST
     @Path("login")
     @Produces(MediaType.TEXT_PLAIN)

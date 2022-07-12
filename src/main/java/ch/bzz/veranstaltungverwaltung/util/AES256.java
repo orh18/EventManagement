@@ -10,10 +10,19 @@ import java.nio.charset.StandardCharsets;
 import java.security.spec.KeySpec;
 import java.util.Base64;
 
+/**
+ * @author Lokesh Gupta(<a href="https://howtodoinjava.com/java/java-security/aes-256-encryption-decryption/%22%3Ehttps://howtodoinjava.com/java/java-security/aes-256-encryption-decryption/</a>)
+ *
+ */
 public class AES256 {
     private static final String SECRET_KEY = "my_super_secret_key";
     private static final String SALT = "ssshhhhhhhhhhh!!!!";
 
+    /**
+     * encrypts the given value
+     * @param strToEncrypt the value to encrypt
+     * @return
+     */
     public static String encrypt(String strToEncrypt) {
         try {
             byte[] iv = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -34,6 +43,11 @@ public class AES256 {
         return null;
     }
 
+    /**
+     * decrypts the given value
+     * @param strToDecrypt the value to decrypt
+     * @return
+     */
     public static String decrypt(String strToDecrypt) {
         try {
             byte[] iv = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};

@@ -12,18 +12,17 @@ import java.util.List;
 
 /**
  * data handler for reading the users
- *
- * M133: Event Management
- *
- * @author Obin Rokibul Hoque
+ * @author  : Obin Rokibul Hoque
+ * @date    : 2022-07-11
+ * @version : 1e
  */
 public class UserData {
     private static final UserData instance = new UserData();
 
     /**
      * finds a user by username / password
-     * @param username
-     * @param password
+     * @param username the username of the user
+     * @param password the password of the user
      * @return User object / null=not found
      */
 
@@ -42,7 +41,7 @@ public class UserData {
 
     /**
      * finds a user by username / password
-     * @param username
+     * @param username the username of the user
      * @return User object / null=not found
      */
 
